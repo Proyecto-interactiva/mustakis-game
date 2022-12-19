@@ -9,12 +9,15 @@ public class RegisterManager : MonoBehaviour
     public GameObject username;
     public GameObject email;
     public GameObject password;
+    public GameObject repeatPassword;
     [Header("Error Message Settings")]
     public TMP_Text errorLabel;
     public string errorMessage = "";
+    public string unequalPassWarningMessage = "";
     private TMP_InputField usernameInputField;
     private TMP_InputField emailInputField;
     private TMP_InputField passwordInputField;
+    private TMP_InputField repeatPasswordInputField;
     private string uri = "/sign/up";
 
     GameManager gameManager;
@@ -25,6 +28,7 @@ public class RegisterManager : MonoBehaviour
         usernameInputField = username.GetComponent<TMP_InputField>();
         emailInputField = email.GetComponent<TMP_InputField>();
         passwordInputField = password.GetComponent<TMP_InputField>();
+        repeatPasswordInputField = repeatPassword.GetComponent<TMP_InputField>();
 
         errorLabel.SetText(""); // Empty error field at start
     }
@@ -33,10 +37,59 @@ public class RegisterManager : MonoBehaviour
     {
         FindObjectOfType<AudioManager>().Play("Text");
         SceneManager.LoadScene("Menu");
-
     }
 
-    public void Register()
+    // Revelar/Ocultar contraseña
+    public void TogglePassword()
+    {
+        Debug.Log("Toggled password");
+        passwordInputField.contentType = (passwordInputField.contentType == TMP_InputField.ContentType.Password) ?
+            TMP_InputField.ContentType.Standard : TMP_InputField.ContentType.Password;
+        passwordInputField.ForceLabelUpdate(); // Actualiza texto para visualizar el cambio
+    }
+
+    // Revelar/Ocultar repetición de contraseña
+    public void ToggleRepeatPassword()
+    {
+        Debug.Log("Toggled Repeat password");
+        repeatPasswordInputField.contentType = (repeatPasswordInputField.contentType == TMP_InputField.ContentType.Password) ?
+            TMP_InputField.ContentType.Standard : TMP_InputField.ContentType.Password;
+        repeatPasswordInputField.ForceLabelUpdate(); // Actualiza texto para visualizar el cambio
+    }
+
+    // Nuevo registro y accedo a menú del código ("Play Menu")
+    public void RegisterAndPlay()
+    {
+        if (ArePasswordsEqual()) // Chequeo de contraseñas iguales
+        {
+            WWWForm form = Register();
+            StartCoroutine(gameManager.PostForm(uri, form, SuccessRegisterFallBackPLAY, ErrorRegisterFallBack));
+        }
+        else
+        {
+            FindObjectOfType<AudioManager>().Play("Text");
+            FindObjectOfType<AudioManager>().Play("Close");
+            errorLabel.SetText(unequalPassWarningMessage); // Advierte sobre contraseñas desiguales
+        }
+    }
+
+    // Nuevo registro y vuelvo a menú inicial (Menu)
+    public void RegisterAndExit()
+    {
+        if (ArePasswordsEqual()) // Chequeo de contraseñas iguales
+        {
+            WWWForm form = Register();
+            StartCoroutine(gameManager.PostForm(uri, form, SuccessRegisterFallBackEXIT, ErrorRegisterFallBack));
+        }
+        else
+        {
+            FindObjectOfType<AudioManager>().Play("Text");
+            FindObjectOfType<AudioManager>().Play("Close");
+            errorLabel.SetText(unequalPassWarningMessage); // Advierte sobre contraseñas desiguales
+        }
+    }
+
+    private WWWForm Register()
     {
         FindObjectOfType<AudioManager>().Play("Text");
         // do the registration
@@ -45,13 +98,20 @@ public class RegisterManager : MonoBehaviour
         form.AddField("email", emailInputField.text);
         form.AddField("password", passwordInputField.text);
         Debug.Log("Executing Register post");
-        StartCoroutine(gameManager.PostForm(uri, form, SuccessRegisterFallBack, ErrorRegisterFallBack));
+        return form;
     }
 
-    private void SuccessRegisterFallBack()
+    private void SuccessRegisterFallBackPLAY()
     {
         FindObjectOfType<AudioManager>().Play("Open");
-        SceneManager.LoadScene("Play Menu");
+
+        gameManager.lastSceneBeforeTrailer = SceneManager.GetActiveScene().name;
+        SceneManager.LoadScene("Trailer"); // Primer ingreso, se inicia trailer
+    }
+    private void SuccessRegisterFallBackEXIT()
+    {
+        FindObjectOfType<AudioManager>().Play("Open");
+        SceneManager.LoadScene("Menu");
     }
 
     private void ErrorRegisterFallBack()
@@ -60,8 +120,15 @@ public class RegisterManager : MonoBehaviour
         usernameInputField.text = "";
         emailInputField.text = "";
         passwordInputField.text = "";
+        repeatPasswordInputField.text = "";
 
         // Error message
         errorLabel.SetText(errorMessage);
+    }
+
+    // Chequeo de igualdad de contraseñas
+    private bool ArePasswordsEqual()
+    {
+        return passwordInputField.text == repeatPasswordInputField.text;
     }
 }

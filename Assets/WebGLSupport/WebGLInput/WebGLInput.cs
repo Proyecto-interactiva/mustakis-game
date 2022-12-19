@@ -375,10 +375,26 @@ namespace WebGLSupport
         {
             WebGLInputTabFocus.Remove(this);
         }
+
+        // GABO: Reemplazado por función abajo
+        //public int CompareTo(WebGLInput other)
+        //{
+        //    var a = GetScreenCoordinates(input.RectTransform());
+        //    var b = GetScreenCoordinates(other.input.RectTransform());
+        //    var res = b.y.CompareTo(a.y);
+        //    if (res == 0) res = a.x.CompareTo(b.x);
+        //    return res;
+        //}
+
+        // GABO:
+        // **Crearé mi propio comparador ya que "GetScreenCoordinates" en la func original (arriba) cambia de valores (x,y)
+        // de cada WebGLinput recibido para distintas ejecuciones, por razones desconocidas; observable al chequear el Sort() de la lista navegable con Tab.
+        // **
+        // Debiese bastar con comparar las coordenada X de cada inputField en espacio de pantalla, y luego la coordenada Y si esa es igual.
         public int CompareTo(WebGLInput other)
         {
-            var a = GetScreenCoordinates(input.RectTransform());
-            var b = GetScreenCoordinates(other.input.RectTransform());
+            var a = Camera.main.WorldToScreenPoint(input.RectTransform().position);
+            var b = Camera.main.WorldToScreenPoint(other.input.RectTransform().position);
             var res = b.y.CompareTo(a.y);
             if (res == 0) res = a.x.CompareTo(b.x);
             return res;
