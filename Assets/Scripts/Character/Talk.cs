@@ -37,7 +37,7 @@ public class Talk : MonoBehaviour
 
     public void Submit()
     {
-        confirmatioBox.GetComponent<confirmationBox>().Show(characterId);
+        confirmatioBox.GetComponent<confirmationBox>().Show();// characterId); // Gabo- modif TEMPORAL
         FindObjectOfType<AudioManager>().Play("Text");
 
     }

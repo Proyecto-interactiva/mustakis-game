@@ -10,7 +10,16 @@ using UnityEngine.Networking;
 public class TalkManager : MonoBehaviour
 {
     public MessagesDisplay messageDisplay;
+    public GameObject questionDisplay;
+    public Button submitButton;
+    public TMP_Text questionText;
+    public TMP_Text answerText1;
+    public TMP_Text answerText2;
+    public TMP_Text answerText3;
+    public TMP_Text answerText4;
+
     GameManager gameManager;
+    Inventory inventory;
 
     //VARIABLES TEMPORALES
     //string jsonPathTEMPORAL = Application.streamingAssetsPath + "/testJSON.txt"; //***WebGL necesita usar UnityWebRequest!!!***
@@ -18,9 +27,11 @@ public class TalkManager : MonoBehaviour
     QuestionPack questionPackTEMPORAL;
     List<string> dialoguesTEMPORAL;
     //Fases
-    bool isDialoguePhase = true;
-    bool isSpawnPhase = false;
-    bool isQuestionsPhase = false;
+    public bool isDialoguePhase = true;
+    public bool isSpawnPhase = false;
+    public bool isQuestionsPhase = false;
+    //Preguntas
+    public int currentQuestionIndex = 0;
 
     // Mensajes Diálogo
     int currentDialogueIndex = 0;
@@ -29,6 +40,7 @@ public class TalkManager : MonoBehaviour
     private void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
+        inventory = FindObjectOfType<PlayerLogic>().inventory;
 
         // TEMPORALES
         //jsonTextTEMPORAL = File.ReadAllText(jsonPathTEMPORAL);
@@ -57,16 +69,16 @@ public class TalkManager : MonoBehaviour
             text = "¿Te interesaría realizar actividades de fortalecimiento grupal?",
             answers = new List<string> { "Sí", "No", "Quizás", "No lo sé" }
         };
-        questionPackTEMPORAL.questions.Add(b);
+        questionPackTEMPORAL.questions.Add(c);
         Debug.Log(JsonUtility.ToJson(questionPackTEMPORAL));
 
         //=========================
 
         dialoguesTEMPORAL = new List<string>
         {
-            "¡Bienvenido! A continuación, se te realizarán algunas preguntas.",
+            "¡Bienvenido! A continuación, aparecerán libros con preguntas.",
             "¡Lo más importante es contestar con sinceridad!",
-            "Ánimos y démosle."
+            "Tráeme el que prefieras."
         };
         //Debug.Log("PREG1: " + questionPackTEMPORAL.questions[0].text);
         //Debug.Log("PREG2: " + questionPackTEMPORAL.questions[1].text);
@@ -89,9 +101,57 @@ public class TalkManager : MonoBehaviour
                 currentDialogueIndex++;
             }
         }
+        // Spawneo de libros
         else if (isSpawnPhase)
         {
-            // SPAWNEAR LIBROS!!!!
+            List<string> bookTitles = new() { "Trabajo en Equipo", "Equipos de Trabajo", "Trabajo grupal"};
+            gameManager.SpawnBooks(bookTitles);
+            ShowSubmit();
+            isSpawnPhase = false;
+        }
+        // Preguntas tras recibir libro
+        else if (isQuestionsPhase)
+        {
+            QuestionPack.Question currQuestion = questionPackTEMPORAL.questions[0];
+            /// TODO:
+            // - MOSTRAR PREGUNTA EN EL WIDGET
+            // - CONTESTAR PREGUNTA
+            // - PASAR A PREGUNTA SIGUIENTE
+            // - TRAS CONTESTAR A ULTIMA PREGUNTA, CERRAR WIDGET.
+
+            // Setear primera pregunta
+            questionText.text = currQuestion.text;
+            answerText1.text = currQuestion.answers[0];
+            answerText2.text = currQuestion.answers[1];
+            answerText3.text = currQuestion.answers[2];
+            answerText4.text = currQuestion.answers[3];
+            // Abrir widget
+            questionDisplay.SetActive(true);
+        }
+    }
+
+    // Siguiente pregunta. Para ser usado con los botones de respuestas.
+    public void NextQuestion()
+    {
+        if (isQuestionsPhase)
+        {
+            FindObjectOfType<AudioManager>().Play("Text");
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questionPackTEMPORAL.questions.Count)
+            {
+                // Pregunta
+                QuestionPack.Question currQuestion = questionPackTEMPORAL.questions[currentQuestionIndex];
+                // Setear pregunta
+                questionText.text = currQuestion.text;
+                answerText1.text = currQuestion.answers[0];
+                answerText2.text = currQuestion.answers[1];
+                answerText3.text = currQuestion.answers[2];
+                answerText4.text = currQuestion.answers[3];
+            }
+            else
+            {
+                questionDisplay.SetActive(false);
+            }
         }
     }
 
@@ -121,5 +181,14 @@ public class TalkManager : MonoBehaviour
             }
         }
         else { Debug.LogWarning("Se intentó usar NextMessage fuera de fase de diálogo"); }      
+    }
+    internal void HideSubmit()
+    {
+        submitButton.gameObject.SetActive(false);
+    }
+
+    internal void ShowSubmit()
+    {
+        submitButton.gameObject.gameObject.SetActive(true);
     }
 }
