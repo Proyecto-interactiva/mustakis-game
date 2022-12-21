@@ -65,6 +65,21 @@ public class Save
     }
 }
 
+[System.Serializable] // Parece ser necesario???
+// Gabo - Stage con Packs de Preguntas por libro
+public class QuestionPack
+{   
+    public List<Question> questions = new(); // **Habia que inicializarlo para que no fuese null?? Y por q las del Lucas arriba no?
+
+    [System.Serializable]
+    public class Question
+    {
+        public int id;
+        public string text;
+        public List<string> answers;
+    }
+}
+
 
 
 

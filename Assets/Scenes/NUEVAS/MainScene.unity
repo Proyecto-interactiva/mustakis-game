@@ -5975,7 +5975,6 @@ GameObject:
   - component: {fileID: 246274587}
   - component: {fileID: 246274586}
   - component: {fileID: 246274591}
-  - component: {fileID: 246274592}
   - component: {fileID: 246274590}
   m_Layer: 0
   m_Name: Character1
@@ -6114,22 +6113,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activator: {fileID: 1070620161}
---- !u!114 &246274592
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 246274585}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00a23a9f70dd37645b0b81890059bb23, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  messageDisplay: {fileID: 708256216}
-  confirmatioBox: {fileID: 1737778005}
-  characterId: 0
-  questMode: 0
 --- !u!1 &263529967
 GameObject:
   m_ObjectHideFlags: 0
@@ -12396,6 +12379,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85da0d9eeee1b5f40a0999958ec60611, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &787581327
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 787581328}
+  m_Layer: 5
+  m_Name: UIAnswerChooser
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &787581328
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 787581327}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1072958215}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &807469667
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12603,9 +12622,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 708256218}
-        m_TargetAssemblyTypeName: messagesDisplay, Assembly-CSharp
-        m_MethodName: nextMessage
+      - m_Target: {fileID: 1668712769}
+        m_TargetAssemblyTypeName: TalkManager, Assembly-CSharp
+        m_MethodName: NextMessage
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12737,8 +12756,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 246274592}
-        m_TargetAssemblyTypeName: Talk, Assembly-CSharp
+      - m_Target: {fileID: 1668712769}
+        m_TargetAssemblyTypeName: TalkManager, Assembly-CSharp
         m_MethodName: Interact
         m_Mode: 1
         m_Arguments:
@@ -13206,7 +13225,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 246274592}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Talk, Assembly-CSharp
         m_MethodName: Submit
         m_Mode: 1
@@ -14027,7 +14046,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1070620160}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.41, y: -0.31, z: 0}
+  m_LocalPosition: {x: 1.41, y: 8.23, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -14180,6 +14199,7 @@ RectTransform:
   - {fileID: 708256217}
   - {fileID: 1737778006}
   - {fileID: 149700427}
+  - {fileID: 787581328}
   m_Father: {fileID: 1027728361}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -17612,6 +17632,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1648002145}
   m_CullTransparentMesh: 1
+--- !u!1 &1668712767
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1668712768}
+  - component: {fileID: 1668712769}
+  m_Layer: 0
+  m_Name: TalkManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1668712768
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1668712767}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -174.5, y: 195.5889, z: 0.33898735}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1668712769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1668712767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad17abbf638168f45828aed94e23875b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  messageDisplay: {fileID: 708256218}
 --- !u!1001 &1688901126
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18235,7 +18300,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   messagesDisplay: {fileID: 708256218}
-  talk: {fileID: 246274592}
+  talk: {fileID: 0}
 --- !u!1 &1745655590
 GameObject:
   m_ObjectHideFlags: 0

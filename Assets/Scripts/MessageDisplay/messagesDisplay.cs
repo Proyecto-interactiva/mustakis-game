@@ -20,14 +20,14 @@ public class MessagesDisplay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (currentMessageIndex != -1)
-        {
-            messageDisplay.text = messages[currentMessageIndex];
-        }
-        else
-        {
-            messageDisplay.text = "";
-        }
+        //if (currentMessageIndex != -1)
+        //{
+        //    messageDisplay.text = messages[currentMessageIndex];
+        //}
+        //else
+        //{
+        //    messageDisplay.text = "";
+        //}
         
     }
 

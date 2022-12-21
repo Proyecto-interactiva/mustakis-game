@@ -62,7 +62,6 @@ public class Talk : MonoBehaviour
             questMode = true;
             ShowSubmit();
         }
-        
     }
 
     public void ManageError()
