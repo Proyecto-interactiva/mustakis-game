@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.IO;
+using UnityEngine.Networking;
 
 // Gabo - Clase nueva para el manejo del diálogo con Mustakis
 public class TalkManager : MonoBehaviour
@@ -12,8 +13,8 @@ public class TalkManager : MonoBehaviour
     GameManager gameManager;
 
     //VARIABLES TEMPORALES
-    string jsonPathTEMPORAL = Application.streamingAssetsPath + "/testJSON.txt";
-    string jsonTextTEMPORAL;
+    //string jsonPathTEMPORAL = Application.streamingAssetsPath + "/testJSON.txt"; //***WebGL necesita usar UnityWebRequest!!!***
+    //string jsonTextTEMPORAL;
     QuestionPack questionPackTEMPORAL;
     List<string> dialoguesTEMPORAL;
     //Fases
@@ -30,35 +31,42 @@ public class TalkManager : MonoBehaviour
         gameManager = FindObjectOfType<GameManager>();
 
         // TEMPORALES
-        jsonTextTEMPORAL = File.ReadAllText(jsonPathTEMPORAL);
-        //Debug.Log(jsonTextTEMPORAL);
-        questionPackTEMPORAL = /*new QuestionPack();*/JsonUtility.FromJson<QuestionPack>(jsonTextTEMPORAL);
+        //jsonTextTEMPORAL = File.ReadAllText(jsonPathTEMPORAL);
+        questionPackTEMPORAL = new QuestionPack();//JsonUtility.FromJson<QuestionPack>(jsonTextTEMPORAL);
 
         //=========================
-        //QuestionPack.Question a = new()
-        //{
-        //    id = 0,
-        //    text = "banana",
-        //    answers = new List<string> { "a1", "a2", "a3", "a4" }
-        //};
-        //questionPackTEMPORAL.questions.Add(a);
+        QuestionPack.Question a = new()
+        {
+            id = 0,
+            text = "¿Te sientes apoyado por tus compañeros?",
+            answers = new List<string> { "Nada", "Algo", "Bastante", "Mucho" }
+        };
+        questionPackTEMPORAL.questions.Add(a);
 
-        //QuestionPack.Question b = new()
-        //{
-        //    id = 1,
-        //    text = "apple",
-        //    answers = new List<string> { "b1", "b2", "b3", "b4" }
-        //};
-        //questionPackTEMPORAL.questions.Add(b);
-        //Debug.Log(JsonUtility.ToJson(questionPackTEMPORAL));
+        QuestionPack.Question b = new()
+        {
+            id = 1,
+            text = "¿Te gusta el trabajo en equipo?",
+            answers = new List<string> { "Nada", "Algo", "Bastante", "Mucho" }
+        };
+        questionPackTEMPORAL.questions.Add(b);
+
+        QuestionPack.Question c = new()
+        {
+            id = 2,
+            text = "¿Te interesaría realizar actividades de fortalecimiento grupal?",
+            answers = new List<string> { "Sí", "No", "Quizás", "No lo sé" }
+        };
+        questionPackTEMPORAL.questions.Add(b);
+        Debug.Log(JsonUtility.ToJson(questionPackTEMPORAL));
 
         //=========================
 
         dialoguesTEMPORAL = new List<string>
         {
-            "placeholder 1",
-            "placeholder 2",
-            "placeholder 3"
+            "¡Bienvenido! A continuación, se te realizarán algunas preguntas.",
+            "¡Lo más importante es contestar con sinceridad!",
+            "Ánimos y démosle."
         };
         //Debug.Log("PREG1: " + questionPackTEMPORAL.questions[0].text);
         //Debug.Log("PREG2: " + questionPackTEMPORAL.questions[1].text);
