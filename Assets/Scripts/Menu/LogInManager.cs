@@ -11,6 +11,7 @@ public class LogInManager : MonoBehaviour
     [Header("Error Message Settings")]
     public TMP_Text errorLabel;
     public string errorMessage = "";
+    public string awaitingConnectionMessage = "";
 
     private TMP_InputField emailInputField;
     private TMP_InputField passwordInputField;
@@ -43,6 +44,7 @@ public class LogInManager : MonoBehaviour
         form.AddField("email", emailInputField.text);
         form.AddField("password", passwordInputField.text);
         Debug.Log("Executing login post");
+        errorLabel.SetText(awaitingConnectionMessage);
         StartCoroutine(gameManager.PostForm(specificUri, form, SuccessLogInFallBack, ErrorLogInFallBack));
         
 
