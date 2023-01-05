@@ -72,8 +72,6 @@ public class confirmationBox : MonoBehaviour
         {
             Destroy(item);
         }
-
-        talkManager.isQuestionsPhase = true;
         Close();
     }
 
