@@ -4,20 +4,20 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 
-// DEBUGGING - ***Desactivar cuando NO sea necesario!!!***
-class ApiConnection : MonoBehaviour
-{
-    private void Start()
-    {
-        MustakisGameData debugGameTest = new();
-        MustakisSaveData debugSaveTest = new();
-        //StartCoroutine(debugGameTest.debugJsonToMustakisGame());
-        StartCoroutine(debugSaveTest.debugJsonToMustakisSave());
-    }
-}
+// DEBUGGING - ***Desactivar/borrar cuando NO sea necesario!!!***
+//class ApiConnection : MonoBehaviour
+//{
+//    private void Start()
+//    {
+//        MustakisGameData debugGameTest = new();
+//        MustakisSaveData debugSaveTest = new();
+//        //StartCoroutine(debugGameTest.debugJsonToMustakisGame());
+//        //StartCoroutine(debugSaveTest.debugJsonToMustakisSave());
+//    }
+//}
 // FIN DEBUGGING
 
-// Clases originales (Lucas)
+// Clases originales (Lucas - Eduju)
 //================================================
 //================================================
 public class MessagesResponse

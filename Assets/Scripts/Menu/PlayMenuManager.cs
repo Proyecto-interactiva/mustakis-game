@@ -47,7 +47,7 @@ public class PlayMenuManager : MonoBehaviour
         Debug.Log("Game not found");
     }
 
-    public void saveLoadSuccess(Save save)
+    public void saveLoadSuccess(MustakisSaveData saveData)
     {
         // Do something with save. Probably use it to store what's being made and stuff.
         FindObjectOfType<AudioManager>().Play("Open"); // Success audio cue

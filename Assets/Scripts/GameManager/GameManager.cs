@@ -8,10 +8,10 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     private string jwt;
-    private string userName;
-    private string gameName;
-    private int stageId = 0;
-    private string generalUri = "https://eduju-backend.onrender.com/api"; // https://fractal-interactiva.herokuapp.com/api // "http://localhost:3000/api"; 
+    private string auxUserNameForSave; // Guarda redundantemente el username para newSave() y getSave(), cuando todavia no se tiene mustakisSaveData
+    private MustakisGameData mustakisGameData;
+    private MustakisSaveData mustakisSaveData;
+    private string generalUri = "https://planeta-backend.onrender.com/api"; 
     public GameObject bookPrefab;
 
     [NonSerialized]
@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
                 Debug.Log("Form upload complete!");
                 var json = www.downloadHandler.text;
                 var playerData = JsonUtility.FromJson<PlayerData>(json);
-                userName = playerData.name;
+                auxUserNameForSave = playerData.name;
                 StartCoroutine(Auth(form, FallbackSuccess, FallbackError));
 
             }
@@ -65,11 +65,11 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("Game found!");
                 var json = www.downloadHandler.text;
-                var gameData = JsonUtility.FromJson<GameData>(json);
-                gameName = gameData.gameName;
-                Debug.Log(gameName);
+                var gameData = JsonUtility.FromJson<MustakisGameData>(json);
+                mustakisGameData = gameData;
+                Debug.Log("Game found!: ->" + mustakisGameData.gameName + "<-");
+                Debug.Log(JsonUtility.ToJson(mustakisGameData));
                 FallbackSuccess();
 
             }
@@ -103,37 +103,37 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public IEnumerator NextMessage(int characterId, Action<MessagesResponse> CallBackSuccess, Action CallbackError)
+    //public IEnumerator NextMessage(int characterId, Action<MessagesResponse> CallBackSuccess, Action CallbackError)
+    //{
+    //    using (UnityWebRequest www = UnityWebRequest.Get($"{generalUri}/game/messages?userName={userName}&gameName={gameName}&stageId={stageId}&character={characterId}"))
+    //    {
+    //        Debug.Log("Next messages requested");
+    //        www.SetRequestHeader("Authorization", $"Bearer {jwt}");
+    //        yield return www.SendWebRequest();
+
+    //        if (www.result != UnityWebRequest.Result.Success)
+    //        {
+    //            Debug.Log("Error");
+    //            Debug.Log(www.error);
+
+    //            CallbackError();
+    //        }
+    //        else
+    //        {
+    //            Debug.Log("Messages received!");
+    //            var json = www.downloadHandler.text;
+    //            var response = JsonUtility.FromJson<MessagesResponse>(json);
+    //            Debug.Log(response);
+    //            CallBackSuccess(response);
+    //        }
+    //    }
+    //}
+
+    public IEnumerator PostAnswer(WWWForm form, Action<FeedbackResponse> CallBackSuccess, Action CallbackError)
     {
-        using (UnityWebRequest www = UnityWebRequest.Get($"{generalUri}/game/messages?userName={userName}&gameName={gameName}&stageId={stageId}&character={characterId}"))
+        using (UnityWebRequest www = UnityWebRequest.Post($"{generalUri}/game/answer?email={mustakisSaveData.email}&gameName={mustakisGameData.gameName}", form))
         {
-            Debug.Log("Next messages requested");
-            www.SetRequestHeader("Authorization", $"Bearer {jwt}");
-            yield return www.SendWebRequest();
-
-            if (www.result != UnityWebRequest.Result.Success)
-            {
-                Debug.Log("Error");
-                Debug.Log(www.error);
-
-                CallbackError();
-            }
-            else
-            {
-                Debug.Log("Messages received!");
-                var json = www.downloadHandler.text;
-                var response = JsonUtility.FromJson<MessagesResponse>(json);
-                Debug.Log(response);
-                CallBackSuccess(response);
-            }
-        }
-    }
-
-    public IEnumerator PostAnswer(WWWForm form, int characterId, Action<FeedbackResponse> CallBackSuccess, Action CallbackError)
-    {
-        using (UnityWebRequest www = UnityWebRequest.Post($"{generalUri}/game/answer?userName={userName}&gameName={gameName}&stageId={stageId}&character={characterId}", form))
-        {
-            Debug.Log("Posting answers");
+            Debug.Log("Posting answer");
             www.SetRequestHeader("Authorization", $"Bearer {jwt}");
             yield return www.SendWebRequest();
 
@@ -147,19 +147,19 @@ public class GameManager : MonoBehaviour
             else
             {
                 Debug.Log("Answers posted!");
-                var json = www.downloadHandler.text;
-                var response = JsonUtility.FromJson<FeedbackResponse>(json);
+                string json = www.downloadHandler.text; 
+                var response = JsonUtility.FromJson<FeedbackResponse>(json);                
                 Debug.Log(response);
                 CallBackSuccess(response);
             }
         }
     }
 
-    public IEnumerator newSave(Action<Save> CallbackSuccess, Action CallbackError)
+    public IEnumerator newSave(Action<MustakisSaveData> CallbackSuccess, Action CallbackError)
     {
         WWWForm form = new WWWForm();
-        form.AddField("gameName", gameName);
-        form.AddField("userName", userName);
+        form.AddField("gameName", mustakisGameData.gameName);
+        form.AddField("userName", auxUserNameForSave);
         using (UnityWebRequest www = UnityWebRequest.Post($"{generalUri}/game/newEmpty", form))
         {
             Debug.Log("Creating new save");
@@ -175,18 +175,19 @@ public class GameManager : MonoBehaviour
             {
                 Debug.Log("New save created!");
                 var json = www.downloadHandler.text;
-                var save = JsonUtility.FromJson<Save>(json);
-                CallbackSuccess(save);
+                mustakisSaveData = JsonUtility.FromJson<MustakisSaveData>(json);
+                Debug.Log(JsonUtility.ToJson(mustakisSaveData));
+                CallbackSuccess(mustakisSaveData);
 
             }
         }
     }
 
-    public IEnumerator getSave(Action<Save> CallbackSuccess, Action CallbackError)
+    public IEnumerator getSave(Action<MustakisSaveData> CallbackSuccess, Action CallbackError)
     {
-        using (UnityWebRequest www = UnityWebRequest.Get($"{generalUri}/game?userName={userName}&gameName={gameName}"))
+        using (UnityWebRequest www = UnityWebRequest.Get($"{generalUri}/game?userName={auxUserNameForSave}&gameName={mustakisGameData.gameName}"))
         {
-            Debug.Log("Creating new save");
+            Debug.Log("Getting save");
             www.SetRequestHeader("Authorization", $"Bearer {jwt}");
             yield return www.SendWebRequest();
 
@@ -200,8 +201,9 @@ public class GameManager : MonoBehaviour
             {
                 Debug.Log("Save found!");
                 var json = www.downloadHandler.text;
-                var save = JsonUtility.FromJson<Save>(json);
-                CallbackSuccess(save);
+                mustakisSaveData = JsonUtility.FromJson<MustakisSaveData>(json);
+                Debug.Log(JsonUtility.ToJson(mustakisSaveData));
+                CallbackSuccess(mustakisSaveData);
             }
         }
     }
