@@ -31,6 +31,19 @@ public class TalkManager : MonoBehaviour
     public void Interact()
     {
         FindObjectOfType<AudioManager>().Play("Text");
+
+        // DEBUGGING
+        // --- Prueba API: PostAnswer() ---
+        WWWForm form = new WWWForm();
+        form.AddField("questionPacksId", 0);
+        form.AddField("questionId", 0);
+        form.AddField("answerId", 2);
+        form.AddField("answer", gameManager.mustakisGameData.scenes[0]
+            .questionPacks[0].answers[2].content);
+        Debug.Log("DEBUG: Probando API");
+        StartCoroutine(gameManager.PostAnswer(form, (FeedbackResponse response)=>{}, () =>{}));
+        // FIN DEBUGGING
+
         //// Diálogos 
         //if (isDialoguePhase)
         //{

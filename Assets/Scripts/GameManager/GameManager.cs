@@ -7,10 +7,11 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public MustakisGameData mustakisGameData;
+    public MustakisSaveData mustakisSaveData;
     private string jwt;
-    private string auxUserNameForSave; // Guarda redundantemente el username para newSave() y getSave(), cuando todavia no se tiene mustakisSaveData
-    private MustakisGameData mustakisGameData;
-    private MustakisSaveData mustakisSaveData;
+    private string auxUserNameForSave; // Guarda redundantemente el username para newSave() y getSave(),
+                                       // cuando todavia no se tiene mustakisSaveData
     private string generalUri = "https://planeta-backend.onrender.com/api"; 
     public GameObject bookPrefab;
 
@@ -149,7 +150,7 @@ public class GameManager : MonoBehaviour
                 Debug.Log("Answers posted!");
                 string json = www.downloadHandler.text; 
                 var response = JsonUtility.FromJson<FeedbackResponse>(json);                
-                Debug.Log(response);
+                Debug.Log(json);
                 CallBackSuccess(response);
             }
         }
