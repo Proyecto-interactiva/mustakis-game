@@ -63,7 +63,6 @@ public class confirmationBox : MonoBehaviour
     {
         gameObject.SetActive(false);
         List<string> messages = new List<string>();
-        talkManager.HideSubmit();
         inventory.Clear();
         GameObject[] items;
         items = GameObject.FindGameObjectsWithTag("Item");

@@ -5,13 +5,14 @@ using UnityEngine.UI;
 using TMPro;
 using System.IO;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 
 // Gabo - Clase nueva para el manejo del diálogo con Mustakis
 public class TalkManager : MonoBehaviour
 {
     public MessagesDisplay messageDisplay;
     public GameObject questionDisplay;
-    public Button submitButton;
+    //public Button submitButton;
     public TMP_Text questionText;
     public TMP_Text answerText1;
     public TMP_Text answerText2;
@@ -27,35 +28,81 @@ public class TalkManager : MonoBehaviour
         inventory = FindObjectOfType<PlayerLogic>().inventory;
     }
 
-    // Gabo - Mecanismo de interacción TEMPORAL
+    private void Update()
+    {
+        // Paso de fase INTRO->GENERAL (tras interacción en Interact())
+        if (messageDisplay.isFinished && gameManager.currentPhase == GameManager.Phase.INTRO)
+        {
+            gameManager.currentPhase = GameManager.Phase.GENERAL;
+            Debug.Log("Fase INTRO->GENERAL");
+        }
+        // Fase GENERAL
+        else if (gameManager.currentPhase == GameManager.Phase.GENERAL)
+        {
+            // TERMINARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
+            // TODO:
+            // ---- SPAWNEO CONSTELACIONES
+            // - CREAR OBJETO CONSTELACION (BASADO EN LIBRO O HACER OBJETO NUEVO??? REVISAR Q ES + FACIL)
+            // - PERMITIR INTERACCION BASICA
+            // - REVISAR QUÉ ES LO QUE HACÍA EL LIBRO TEMPLATE INVISIBLE***
+        }
+        // FIN de JUEGO
+        else if (gameManager.isGameFinished && gameManager.currentPhase == GameManager.Phase.FINAL)
+        {
+            SceneManager.LoadScene("Menu");
+        }
+    }
+
+    // Gabo - Para usarse con botón de interacción NPC
     public void Interact()
     {
         FindObjectOfType<AudioManager>().Play("Text");
 
         // DEBUGGING
-        // --- Prueba API: PostAnswer() ---
-        WWWForm form = new WWWForm();
-        form.AddField("questionPacksId", 0);
-        form.AddField("questionId", 0);
-        form.AddField("answerId", 2);
-        form.AddField("answer", gameManager.mustakisGameData.scenes[0]
-            .questionPacks[0].answers[2].content);
-        Debug.Log("DEBUG: Probando API");
-        StartCoroutine(gameManager.PostAnswer(form, (FeedbackResponse response)=>{}, () =>{}));
+        //// --- Prueba API: PostAnswer() ---
+        //WWWForm form = new WWWForm();
+        //form.AddField("questionPacksId", 0);
+        //form.AddField("questionId", 0);
+        //form.AddField("answerId", 2);
+        //form.AddField("answer", gameManager.mustakisGameData.scenes[0] // ***Será mejor eliminar este parametro???***
+        //    .questionPacks[0].answers[2].content);
+        //Debug.Log("DEBUG: Probando API");
+        //StartCoroutine(gameManager.PostAnswer(form, (FeedbackResponse response)=>{}, () =>{}));
         // FIN DEBUGGING
 
-        //// Diálogos 
-        //if (isDialoguePhase)
-        //{
-        //    // Activar dialogo con primer mensaje
-        //    if (!messageDisplay.isActiveAndEnabled)
-        //    {
-        //        messageDisplay.gameObject.SetActive(true);
-        //        TextMeshProUGUI auxText = messageDisplay.GetComponentInChildren<TextMeshProUGUI>();
-        //        auxText.SetText(dialoguesTEMPORAL[0]);
-        //        currentDialogueIndex++;
-        //    }
-        //}
+        // Diálogo
+        // Fase INTRO
+        if (gameManager.currentPhase == GameManager.Phase.INTRO)
+        {
+            // Activar dialogo
+            if (!messageDisplay.isActiveAndEnabled)
+            {
+                List<string> introMessages = gameManager.mustakisGameData.dialogues.introDialogues;
+                messageDisplay.ShowMessages(introMessages);
+            }
+        }
+        // Fase GENERAL
+        else if (gameManager.currentPhase == GameManager.Phase.GENERAL)
+        {
+            // Activar dialogo
+            if (!messageDisplay.isActiveAndEnabled)
+            {
+                List<string> generalMessages = gameManager.mustakisGameData.dialogues.generalDialogues;
+                messageDisplay.ShowMessages(generalMessages);
+            }
+        }
+        // Fase FINAL
+        else if (gameManager.currentPhase == GameManager.Phase.FINAL)
+        {
+            // Activar dialogo
+            if (!messageDisplay.isActiveAndEnabled)
+            {
+                List<string> finalMessages = gameManager.mustakisGameData.dialogues.finalDialogues;
+                messageDisplay.ShowMessages(finalMessages);
+            }
+        }
+
+
         //// Spawneo de libros
         //else if (isSpawnPhase)
         //{
@@ -111,41 +158,13 @@ public class TalkManager : MonoBehaviour
         //    }
     }
 
-    // Siguiente mensaje. Para ser usado con el botón de la caja de diálogo.
-    public void NextMessage()
-    {
-        FindObjectOfType<AudioManager>().Play("Text");
-        //// Solo actúa si es fase de diálogo
-        //if (isDialoguePhase)
-        //{
-        //    if (currentDialogueIndex < dialoguesTEMPORAL.Count)
-        //    {
-        //        // Mostrar mensaje y preparar para el siguiente
-        //        TextMeshProUGUI auxText = messageDisplay.GetComponentInChildren<TextMeshProUGUI>();
-        //        auxText.SetText(dialoguesTEMPORAL[currentDialogueIndex]);//auxText.text = dialoguesTEMPORAL[currentDialogueIndex];
-        //        //===
-        //        //Debug.Log(auxText.text);
-        //        //===
-        //        currentDialogueIndex++;
-        //    }
-        //    else
-        //    {
-        //        isDialoguePhase = false;
-        //        isSpawnPhase = true;
-        //        // Desactivar caja de mensajes si es el último y dar paso a fase de preguntas
-        //        messageDisplay.gameObject.SetActive(false);
-        //    }
-        //}
-        //else { Debug.LogWarning("Se intentó usar NextMessage fuera de fase de diálogo"); }      
-    }
+    //public void HideSubmit()
+    //{
+    //    submitButton.gameObject.SetActive(false);
+    //}
 
-    public void HideSubmit()
-    {
-        submitButton.gameObject.SetActive(false);
-    }
-
-    public void ShowSubmit()
-    {
-        submitButton.gameObject.SetActive(true);
-    }
+    //public void ShowSubmit()
+    //{
+    //    submitButton.gameObject.SetActive(true);
+    //}
 }

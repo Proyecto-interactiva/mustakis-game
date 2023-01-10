@@ -7,7 +7,11 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public enum Phase { INTRO, GENERAL, FINAL };
+
+    [NonSerialized]
     public MustakisGameData mustakisGameData;
+    [NonSerialized]
     public MustakisSaveData mustakisSaveData;
     private string jwt;
     private string auxUserNameForSave; // Guarda redundantemente el username para newSave() y getSave(),
@@ -17,11 +21,19 @@ public class GameManager : MonoBehaviour
 
     [NonSerialized]
     public string lastSceneBeforeTrailer = ""; // Tag de escena previa al trailer, para determinar escena posterior
+    // Gabo - Fases
+    [NonSerialized]
+    public Phase currentPhase;
+    // Gabo - FIN DE JUEGO
+    [NonSerialized]
+    public bool isGameFinished;
 
     private void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
         SceneManager.LoadScene("Menu");
+
+        currentPhase = Phase.INTRO; // Se activa fase inicial
     }
 
     public IEnumerator PostForm(string specificUri, WWWForm form, Action FallbackSuccess, Action FallbackError)
