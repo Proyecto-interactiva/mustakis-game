@@ -30,21 +30,19 @@ public class TalkManager : MonoBehaviour
 
     private void Update()
     {
-        // Paso de fase INTRO->GENERAL (tras interacción en Interact())
-        if (messageDisplay.isFinished && gameManager.currentPhase == GameManager.Phase.INTRO)
-        {
-            gameManager.currentPhase = GameManager.Phase.GENERAL;
-            Debug.Log("Fase INTRO->GENERAL");
-        }
         // Fase GENERAL
-        else if (gameManager.currentPhase == GameManager.Phase.GENERAL)
+        if (gameManager.currentPhase == GameManager.Phase.GENERAL)
         {
             // TERMINARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
             // TODO:
             // ---- SPAWNEO CONSTELACIONES
-            // - CREAR OBJETO CONSTELACION (BASADO EN LIBRO O HACER OBJETO NUEVO??? REVISAR Q ES + FACIL)
-            // - PERMITIR INTERACCION BASICA
-            // - REVISAR QUÉ ES LO QUE HACÍA EL LIBRO TEMPLATE INVISIBLE***
+            // - PERMITIR INTERACCION
+            // - CAMBIO DE FASES
+            if (!ConstellationManager.Instance.isSpawned)
+            {
+                // Spawn constelaciones
+                ConstellationManager.Instance.SpawnConstellations();
+            }
         }
         // FIN de JUEGO
         else if (gameManager.isGameFinished && gameManager.currentPhase == GameManager.Phase.FINAL)
@@ -70,7 +68,7 @@ public class TalkManager : MonoBehaviour
         //StartCoroutine(gameManager.PostAnswer(form, (FeedbackResponse response)=>{}, () =>{}));
         // FIN DEBUGGING
 
-        // Diálogo
+        ///// Diálogo
         // Fase INTRO
         if (gameManager.currentPhase == GameManager.Phase.INTRO)
         {
@@ -78,7 +76,7 @@ public class TalkManager : MonoBehaviour
             if (!messageDisplay.isActiveAndEnabled)
             {
                 List<string> introMessages = gameManager.mustakisGameData.dialogues.introDialogues;
-                messageDisplay.ShowMessages(introMessages);
+                messageDisplay.ShowMessagesAndChangePhaseOnClose(introMessages, GameManager.Phase.GENERAL);
             }
         }
         // Fase GENERAL
