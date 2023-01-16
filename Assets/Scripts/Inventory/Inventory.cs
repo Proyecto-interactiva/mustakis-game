@@ -4,32 +4,24 @@ using UnityEngine;
 
 public class Inventory
 {
-    private List<Item> itemList;
+    private List<ConstellationNPC> itemList;
     public delegate void UpdateInventory();
     public event UpdateInventory Updated;
 
     public Inventory()
     {
-        itemList = new List<Item>();
-        Debug.Log("Inventario");
+        itemList = new List<ConstellationNPC>();
+        Debug.Log("Inventario de Constelaciones");
     }
 
-    public void AddItem(Item item)
+    public void AddConstellation(ConstellationNPC constellation)
     {
-        Debug.Log("Item added");
-        itemList.Add(item);
+        Debug.Log("Constellation added");
+        itemList.Add(constellation);
         Updated?.Invoke();
     }
 
-    public void RemoveItem(Item item)
-    {
-        Debug.Log("Item dropped");
-        item.DropItem();
-        itemList.Remove(item);
-        Updated?.Invoke();
-    }
-
-    public List<Item> GetItemList()
+    public List<ConstellationNPC> GetConstellationList()
     {
         return itemList;
     }
@@ -37,6 +29,11 @@ public class Inventory
     public void Clear()
     {
         itemList.Clear();
+        Updated?.Invoke();
+    }
+
+    public void Update()
+    {
         Updated?.Invoke();
     }
 }

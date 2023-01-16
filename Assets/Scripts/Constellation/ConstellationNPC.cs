@@ -47,9 +47,13 @@ public class ConstellationNPC : MonoBehaviour
     private UIQuestionBox questionBox;
     private int lastUnansweredQuestionIndex;
 
+    // Completación
+    public bool isComplete;
+
 
     private void Start()
     {
+        isComplete = false;
         gameManager = FindObjectOfType<GameManager>();
         currentConstellationPhase = ConstellationManager.ConstellationPhase.INTRO; // Fase inicial
         messagesDisplay = ConstellationManager.Instance.messagesDisplay;
@@ -83,31 +87,49 @@ public class ConstellationNPC : MonoBehaviour
 
     private void Update()
     {
-        // Si ya se completó hasta la última pregunta se pasa a fase OUTRO
-        if (lastUnansweredQuestionIndex == -1)
+        // Si NO está completo, sigue. De lo contrario Update() termina aquí mismo.
+        if (!isComplete)
         {
-            currentConstellationPhase = ConstellationManager.ConstellationPhase.OUTRO;
-        }
-        // Mensajes de pregunta actual
-        else if (currentConstellationPhase == ConstellationManager.ConstellationPhase.QMESSAGES)
-        {
-            if (!messagesDisplay.isActiveAndEnabled)
+        // Si ya se completó hasta la última pregunta se establece isComplete=true
+            if (lastUnansweredQuestionIndex == -1 && !isComplete)
             {
-                messagesDisplay.gameObject.SetActive(true);
-                messagesDisplay.ShowMessagesAndChangeConstellationPhaseOnClose(constellation.questionPacks[lastUnansweredQuestionIndex].messages,
-                    this, ConstellationManager.ConstellationPhase.QUESTIONS);
+                isComplete = true;
+                // Se pasa a OUTRO y se actualiza inventario. Para caso de libros que estuviesen listos desde antes.
+                if (ParseInitialLastUnansweredQuestionIndex() == -1)
+                {
+                    currentConstellationPhase = ConstellationManager.ConstellationPhase.OUTRO;
+                    FindObjectOfType<PlayerLogic>().inventory.Update();
+                }
             }
-        }
-        // Pregunta actual
-        else if (currentConstellationPhase == ConstellationManager.ConstellationPhase.QUESTIONS)
-        {
-            if (!questionBox.isActiveAndEnabled)
+            // Mensajes previos de pregunta actual
+            else if (currentConstellationPhase == ConstellationManager.ConstellationPhase.QMESSAGES)
             {
-                questionBox.gameObject.SetActive(true);
-                questionBox.ShowQuestionAndChangeConstellationPhaseOnClose(this, lastUnansweredQuestionIndex, ConstellationManager.ConstellationPhase.QMESSAGES);
-
-                // +1 para pasar a la siguiente pregunta!!! -1 si era la última.
-                lastUnansweredQuestionIndex = lastUnansweredQuestionIndex+1 < constellation.questionPacks.Count ? lastUnansweredQuestionIndex+1 : -1;
+                if (!messagesDisplay.isActiveAndEnabled)
+                {
+                    messagesDisplay.gameObject.SetActive(true);
+                    messagesDisplay.ShowMessagesAndChangeConstellationPhaseOnClose(constellation.questionPacks[lastUnansweredQuestionIndex].messages,
+                        this, ConstellationManager.ConstellationPhase.QUESTIONS);
+                }
+            }
+            // Pregunta actual
+            else if (currentConstellationPhase == ConstellationManager.ConstellationPhase.QUESTIONS)
+            {
+                if (!questionBox.isActiveAndEnabled)
+                {
+                    questionBox.gameObject.SetActive(true);
+                    // Si es última pregunta, pasa a OUTRO al cerrar.
+                    if (lastUnansweredQuestionIndex+1 >= constellation.questionPacks.Count)
+                    {
+                        questionBox.ShowQuestionAndChangeConstellationPhaseOnClose(this, lastUnansweredQuestionIndex, ConstellationManager.ConstellationPhase.OUTRO);
+                    }
+                    // Si NO es última pregunta, pasa a QMESSAGES al cerrar.
+                    else
+                    {
+                        questionBox.ShowQuestionAndChangeConstellationPhaseOnClose(this, lastUnansweredQuestionIndex, ConstellationManager.ConstellationPhase.QMESSAGES);
+                    }
+                    // +1 para pasar a la siguiente pregunta!!! -1 si era la última.
+                    lastUnansweredQuestionIndex = lastUnansweredQuestionIndex + 1 < constellation.questionPacks.Count ? lastUnansweredQuestionIndex + 1 : -1;
+                }
             }
         }
     }
@@ -142,7 +164,7 @@ public class ConstellationNPC : MonoBehaviour
     // Se obtiene índice de la última pregunta sin contestar
     private int ParseInitialLastUnansweredQuestionIndex()
     {
-        //return 0; // TODO: BORRRArrrrrrrrrrrrrrrrrrrrrrrrr ------DEBUGGING
+        //return 0; // ***DEBUGGING***
         int questionIndex = 0;
         foreach (MustakisSaveData.ConstellationSave.QuestionSave questionSave in constellationSave.questions)
         {

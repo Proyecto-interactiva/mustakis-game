@@ -4778,7 +4778,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.00004196167, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 35, y: 35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &92876926
@@ -6293,8 +6293,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "He guardado tu resultado.\n\xA1Gracias por ayudarme a recuperar mi memoria!\nContin\xFAa
-    ahora para desconectar a S.I.C.U."
+  m_text: "Se han guardado tus respuestas.\n<b>\xA1Gracias por energizar las constelaciones!</b>\nContin\xFAa
+    ahora para desconectarte de la nave."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e8e2042b8f985d543b387996f06507d1, type: 2}
   m_sharedMaterial: {fileID: 6343778258235259176, guid: e8e2042b8f985d543b387996f06507d1, type: 2}
@@ -9962,7 +9962,6 @@ Transform:
   - {fileID: 1530806954}
   - {fileID: 1888335407}
   - {fileID: 1321161729}
-  - {fileID: 1310389414}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -16193,118 +16192,6 @@ RectTransform:
   m_AnchoredPosition: {x: 108, y: -21}
   m_SizeDelta: {x: 394, y: 52}
   m_Pivot: {x: 0, y: 1}
---- !u!1001 &1310389413
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 2
-    m_TransformParent: {fileID: 308871919}
-    m_Modifications:
-    - target: {fileID: 1887506262463823404, guid: 275c75ded77c9294a830ecff6cf518aa, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7902011896980034243, guid: 275c75ded77c9294a830ecff6cf518aa, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7902011897419779771, guid: 275c75ded77c9294a830ecff6cf518aa, type: 3}
-      propertyPath: picker
-      value: 
-      objectReference: {fileID: 1070620166}
-    - target: {fileID: 7902011897419779771, guid: 275c75ded77c9294a830ecff6cf518aa, type: 3}
-      propertyPath: itemType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7902011897419779771, guid: 275c75ded77c9294a830ecff6cf518aa, type: 3}
-      propertyPath: book1Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 68d18b9e360c467469bee2f97ac41db1, type: 3}
-    - target: {fileID: 7902011897419779771, guid: 275c75ded77c9294a830ecff6cf518aa, type: 3}
-      propertyPath: book2Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 3c0f105bc58e2ef42be7fcbd436004a2, type: 3}
-    - target: {fileID: 7902011897419779771, guid: 275c75ded77c9294a830ecff6cf518aa, type: 3}
-      propertyPath: book3Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 8c5f89cd2f93556458923fa8c2cb93cd, type: 3}
-    - target: {fileID: 7902011897419779771, guid: 275c75ded77c9294a830ecff6cf518aa, type: 3}
-      propertyPath: book4Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 9f4bf0130015f0242ac2b1c8b88d20b6, type: 3}
-    - target: {fileID: 7902011897419779771, guid: 275c75ded77c9294a830ecff6cf518aa, type: 3}
-      propertyPath: book5Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: f0fd1caa37f9b614192ea733b1b75870, type: 3}
-    - target: {fileID: 7902011897419779772, guid: 275c75ded77c9294a830ecff6cf518aa, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7902011897419779773, guid: 275c75ded77c9294a830ecff6cf518aa, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 68d18b9e360c467469bee2f97ac41db1, type: 3}
-    - target: {fileID: 7902011897419779774, guid: 275c75ded77c9294a830ecff6cf518aa, type: 3}
-      propertyPath: m_RootOrder
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 7902011897419779774, guid: 275c75ded77c9294a830ecff6cf518aa, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -8.06
-      objectReference: {fileID: 0}
-    - target: {fileID: 7902011897419779774, guid: 275c75ded77c9294a830ecff6cf518aa, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 9.22
-      objectReference: {fileID: 0}
-    - target: {fileID: 7902011897419779774, guid: 275c75ded77c9294a830ecff6cf518aa, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7902011897419779774, guid: 275c75ded77c9294a830ecff6cf518aa, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7902011897419779774, guid: 275c75ded77c9294a830ecff6cf518aa, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7902011897419779774, guid: 275c75ded77c9294a830ecff6cf518aa, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7902011897419779774, guid: 275c75ded77c9294a830ecff6cf518aa, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7902011897419779774, guid: 275c75ded77c9294a830ecff6cf518aa, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7902011897419779774, guid: 275c75ded77c9294a830ecff6cf518aa, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7902011897419779774, guid: 275c75ded77c9294a830ecff6cf518aa, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7902011897419779775, guid: 275c75ded77c9294a830ecff6cf518aa, type: 3}
-      propertyPath: m_Name
-      value: Book1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7902011897419779775, guid: 275c75ded77c9294a830ecff6cf518aa, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_AddedGameObjects: []
-  m_SourcePrefab: {fileID: 100100000, guid: 275c75ded77c9294a830ecff6cf518aa, type: 3}
---- !u!4 &1310389414 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7902011897419779774, guid: 275c75ded77c9294a830ecff6cf518aa, type: 3}
-  m_PrefabInstance: {fileID: 1310389413}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1321161728
 GameObject:
   m_ObjectHideFlags: 0
@@ -17470,10 +17357,10 @@ MonoBehaviour:
       m_Calls: []
   m_text: "<size=120%><align=\"center\"><b>\xA1Bienvenido!</b></align></size>\n\n<size=140%>\u2022</size>Utiliza
     las <b>flechas</b> o el <b>joystick</b> para moverte. <b>Click izq.</b> para
-    interactuar.\n\n<size=140%>\u2022</size>Habla con <b>Kiyoko</b> para iniciar
-    una <b>ronda</b>.\n\n<size=140%>\u2022</size>Durante la ronda, aparecer\xE1n
-    <b>libros</b> con <b>respuestas</b> por el mapa: Selecci\xF3nalos y entr\xE9galos
-    seg\xFAn lo solicitado.\n\n<color=#8cff9b><size=120%><align=\"center\"><b>\xA1Buena
+    interactuar.\n\n<size=140%>\u2022</size>Habla con el <b>guardi\xE1n</b> para
+    iniciar la <b>B\xFAsqueda de Constelaciones</b>.\n\n<size=140%>\u2022</size>Durante
+    la ronda, aparecer\xE1n <b>constelaciones</b> con <b>preguntas</b> por el mapa:
+    B\xFAscalas y resuelve sus dudas para <b>energizarlas</b>.\n\n<color=#8cff9b><size=120%><align=\"center\"><b>\xA1Buena
     suerte!</b></align></size></color>\n\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e8e2042b8f985d543b387996f06507d1, type: 2}
@@ -18277,6 +18164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   messageDisplay: {fileID: 708256218}
+  gameOverDisplay: {fileID: 149700428}
   questionDisplay: {fileID: 787581327}
   questionText: {fileID: 1727297699}
   answerText1: {fileID: 994742805}
@@ -18405,7 +18293,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Recolecci\xF3n"
+  m_text: Constelaciones
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e8e2042b8f985d543b387996f06507d1, type: 2}
   m_sharedMaterial: {fileID: 6343778258235259176, guid: e8e2042b8f985d543b387996f06507d1, type: 2}
@@ -18432,7 +18320,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 9.35
+  m_fontSize: 10
   m_fontSizeBase: 10
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -18468,7 +18356,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 3.7040977, y: 0, z: 0, w: 0}
+  m_margin: {x: 3.7040977, y: 0, z: -15.622021, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -19181,8 +19069,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\xBFEst\xE1s seguro de que deseas salir? Si no has entregado tus respuestas,
-    la ronda no se guardar\xE1."
+  m_text: "\xBFEst\xE1s seguro de que deseas salir? Tu progreso se guardar\xE1."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e8e2042b8f985d543b387996f06507d1, type: 2}
   m_sharedMaterial: {fileID: 6343778258235259176, guid: e8e2042b8f985d543b387996f06507d1, type: 2}

@@ -4,6 +4,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class MessagesDisplay : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class MessagesDisplay : MonoBehaviour
     private ConstellationManager.ConstellationPhase pendingConstellationPhase;
     private bool isConstellationPhasePending;
     private ConstellationNPC pendingConstellationTarget;
+    // CIERRE de JUEGO
+    private bool isGameOverPending;
 
     int currentMessageIndex = -1;
 
@@ -29,6 +32,7 @@ public class MessagesDisplay : MonoBehaviour
         gameManager = FindObjectOfType<GameManager>();
         isPhasePending = false;
         isConstellationPhasePending = false;
+        isGameOverPending = false;
         isFinished = true;
     }
 
@@ -71,6 +75,13 @@ public class MessagesDisplay : MonoBehaviour
         pendingConstellationPhase = phase;
     }
 
+    // Para usarse con el discurso final del NPC. Cierra la partida.
+    public void ShowMessagesAndSetGameFinishedOnClose(List<string> messages)
+    {
+        ShowMessages(messages);
+        isGameOverPending = true;
+    }
+
     private void nextMessage()
     {
         FindObjectOfType<AudioManager>().Play("Text");
@@ -105,6 +116,11 @@ public class MessagesDisplay : MonoBehaviour
             isConstellationPhasePending = false;
             pendingConstellationTarget = null;
             Debug.Log("MessagesDisplay: Fase constelación local cambiada a " + pendingConstellationPhase);
+        }
+        if (isGameOverPending)
+        {
+            FindObjectOfType<GameManager>().isGameFinished = true;
+            Debug.Log("MessageDisplay: Seteando el juego como TERMINADO");
         }
     }
 

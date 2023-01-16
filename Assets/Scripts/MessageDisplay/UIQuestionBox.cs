@@ -14,6 +14,7 @@ public class UIQuestionBox : MonoBehaviour
 
     // Paso de preguntas
     public static bool isAnswerConfirmedAndSent = false; // Se modifica en UIAnswer tras POST de resp. exitoso!
+    public static bool isAnswerInProgress = false; // Usado en UIAnswer para prevenir solicitud rápida múltiple (posible prevención BUG de memory leak?)
     private ConstellationNPC currConstellationNPC;
     private int currQuestionIndex;
     // Fase constelacion pendiente
@@ -34,7 +35,13 @@ public class UIQuestionBox : MonoBehaviour
             isConstellationPhasePending = false;
             isAnswerConfirmedAndSent = false;
             gameObject.SetActive(false);
-            Debug.Log("QuestionBox: Pasando a fase constelacion" + pendingConstellationPhase);
+            Debug.Log("QuestionBox: Pasando a fase constelacion " + pendingConstellationPhase);
+
+            // Actualiza inventario de jugador si se está pasando a OUTRO, para colorear la nueva constelacion completa
+            if (pendingConstellationPhase == ConstellationManager.ConstellationPhase.OUTRO)
+            {
+                FindObjectOfType<PlayerLogic>().inventory.Update();
+            }
         }
     }
 

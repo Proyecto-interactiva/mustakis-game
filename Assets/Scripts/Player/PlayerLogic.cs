@@ -12,5 +12,4 @@ public class PlayerLogic : MonoBehaviour
         inventory = new Inventory();
         uiInventory.SetInventory(inventory);
     }
-
 }

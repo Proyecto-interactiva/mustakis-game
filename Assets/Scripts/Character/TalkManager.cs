@@ -11,6 +11,7 @@ using UnityEngine.SceneManagement;
 public class TalkManager : MonoBehaviour
 {
     public MessagesDisplay messageDisplay;
+    public GameOverDisplay gameOverDisplay;
     public GameObject questionDisplay;
     public TMP_Text questionText;
     public TMP_Text answerText1;
@@ -32,21 +33,29 @@ public class TalkManager : MonoBehaviour
         // Fase GENERAL
         if (gameManager.currentPhase == GameManager.Phase.GENERAL)
         {
-            // TERMINARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
-            // TODO:
-            // ---- SPAWNEO CONSTELACIONES
-            // - PERMITIR INTERACCION
-            // - CAMBIO DE FASES
             if (!ConstellationManager.Instance.isSpawned)
             {
                 // Spawn constelaciones
                 ConstellationManager.Instance.SpawnConstellations();
             }
+            // Paso Fase GENERAL->FINAL, al completar constelaciones
+            if (ConstellationManager.Instance.isConstellationsComplete())
+            {
+                gameManager.currentPhase = GameManager.Phase.FINAL;
+            }
         }
-        // FIN de JUEGO
-        else if (gameManager.isGameFinished && gameManager.currentPhase == GameManager.Phase.FINAL)
+        // Fase FINAL (todavía NO termina)
+        else if (gameManager.currentPhase == GameManager.Phase.FINAL && !gameManager.isGameFinished)
         {
-            SceneManager.LoadScene("Menu");
+            // No hay mucho que hacer aquí en fase final*** (por ahora**)
+        }
+        // FIN de JUEGO: Despliega cuadro GameOverDisplay
+        else if (gameManager.isGameFinished)
+        {
+            if (!gameOverDisplay.isActiveAndEnabled)
+            {
+                gameOverDisplay.Show();
+            }
         }
     }
 
@@ -95,63 +104,8 @@ public class TalkManager : MonoBehaviour
             if (!messageDisplay.isActiveAndEnabled)
             {
                 List<string> finalMessages = gameManager.mustakisGameData.dialogues.finalDialogues;
-                messageDisplay.ShowMessages(finalMessages);
+                messageDisplay.ShowMessagesAndSetGameFinishedOnClose(finalMessages);
             }
-        }
-
-
-        //// Spawneo de libros
-        //else if (isSpawnPhase)
-        //{
-        //    List<string> bookTitles = new() { "Trabajo en Equipo", "Equipos de Trabajo", "Trabajo grupal"};
-        //    gameManager.SpawnBooks(bookTitles);
-        //    ShowSubmit();
-        //    isSpawnPhase = false;
-        //}
-        //// Preguntas tras recibir libro
-        //else if (isQuestionsPhase)
-        //{
-        //    QuestionPack.Question currQuestion = questionPackTEMPORAL.questions[0];
-        //    /// TODO:
-        //    // - MOSTRAR PREGUNTA EN EL WIDGET
-        //    // - CONTESTAR PREGUNTA
-        //    // - PASAR A PREGUNTA SIGUIENTE
-        //    // - TRAS CONTESTAR A ULTIMA PREGUNTA, CERRAR WIDGET.
-
-        //    // Setear primera pregunta
-        //    questionText.text = currQuestion.question;
-        //    answerText1.text = currQuestion.answers[0].content;
-        //    answerText2.text = currQuestion.answers[1].content;
-        //    answerText3.text = currQuestion.answers[2].content;
-        //    answerText4.text = currQuestion.answers[3].content;
-        //    // Abrir widget
-        //    questionDisplay.SetActive(true);
-        //}
-    }
-
-    // Siguiente pregunta. Para ser usado con los botones de respuestas.
-    public void NextQuestion()
-    {
-        FindObjectOfType<AudioManager>().Play("Text");
-        //    if (isQuestionsPhase)
-        //    {
-        //        FindObjectOfType<AudioManager>().Play("Text");
-        //        currentQuestionIndex++;
-        //        if (currentQuestionIndex < questionPackTEMPORAL.questions.Count)
-        //        {
-        //            // Pregunta
-        //            QuestionPack.Question currQuestion = questionPackTEMPORAL.questions[currentQuestionIndex];
-        //            // Setear pregunta
-        //            questionText.text = currQuestion.question;
-        //            answerText1.text = currQuestion.answers[0].content;
-        //            answerText2.text = currQuestion.answers[1].content;
-        //            answerText3.text = currQuestion.answers[2].content;
-        //            answerText4.text = currQuestion.answers[3].content;
-        //        }
-        //        else
-        //        {
-        //            questionDisplay.SetActive(false);
-        //        }
-        //    }
+        }        
     }
 }

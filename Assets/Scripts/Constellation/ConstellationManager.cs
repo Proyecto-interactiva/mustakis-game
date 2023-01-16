@@ -17,6 +17,7 @@ public class ConstellationManager : MonoBehaviour
     private GameManager gameManager;
     private List<Constellation> constellations;
     private List<MustakisSaveData.ConstellationSave> constellationSaves;
+    private List<ConstellationNPC> constellationNPCs;
 
     // Singleton
     public static ConstellationManager Instance { get; private set; }
@@ -37,6 +38,7 @@ public class ConstellationManager : MonoBehaviour
         gameManager = FindObjectOfType<GameManager>();
         constellations = gameManager.mustakisGameData.scenes;
         constellationSaves = gameManager.mustakisSaveData.questionPacks;
+        constellationNPCs = new();
     }
 
     // Spawnear constelaciones (al azar)
@@ -105,5 +107,24 @@ public class ConstellationManager : MonoBehaviour
         currConstellationNPC.constellation = constellation;
         currConstellationNPC.constellationSave = constellationSave;
         currConstellationNPC.gameObject.SetActive(true); // Necesario pues template "constellationPrefab" está desactivado
+        constellationNPCs.Add(currConstellationNPC); // Se agrega a la lista de constelaciones en el mapa
+    }
+
+    // Chequear si las constelaciones estan completadas
+    public bool isConstellationsComplete()
+    {
+        foreach (ConstellationNPC constellation in constellationNPCs)
+        {
+            if (!constellation.isComplete)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public List<ConstellationNPC> GetConstellationNPCs()
+    {
+        return constellationNPCs;
     }
 }

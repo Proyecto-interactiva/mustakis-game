@@ -20,27 +20,34 @@ public class UIAnswer : MonoBehaviour
     // Envío de respuesta. Usado con botones de respuesta.
     public void SendAnswer()
     {
-        FindObjectOfType<AudioManager>().Play("Text");
-        GameManager gameManager = FindObjectOfType<GameManager>();
+        if (!UIQuestionBox.isAnswerInProgress)
+        {
+            FindObjectOfType<AudioManager>().Play("Text");
+            GameManager gameManager = FindObjectOfType<GameManager>();
 
-        WWWForm form = new WWWForm();
-        form.AddField("questionPacksId", questionPacksId);
-        form.AddField("questionId", questionId);
-        form.AddField("answerId", answerId);
-        form.AddField("answer", data.content);
+            WWWForm form = new WWWForm();
+            form.AddField("questionPacksId", questionPacksId);
+            form.AddField("questionId", questionId);
+            form.AddField("answerId", answerId);
+            form.AddField("answer", data.content);
 
-        UIQuestionBox.isAnswerConfirmedAndSent = false;
-        StartCoroutine(gameManager.PostAnswer(form, SendSuccess, SendError));
+            UIQuestionBox.isAnswerConfirmedAndSent = false;
+            UIQuestionBox.isAnswerInProgress = true;
+            StartCoroutine(gameManager.PostAnswer(form, SendSuccess, SendError));
+        }
     }
+
     private void SendSuccess(FeedbackResponse feedbackResponse)
     {
         FindObjectOfType<AudioManager>().Play("Open");
         Debug.Log("UIAnswer: PostAnswer exitoso! answerId=" + answerId + " questionId=" + questionId);
         UIQuestionBox.isAnswerConfirmedAndSent = true;
+        UIQuestionBox.isAnswerInProgress = false;
 
     }
     private void SendError()
     {
+        UIQuestionBox.isAnswerInProgress = false;
         Debug.LogError("UIAnswer: PostAnswer FALLÓ. Revisar conexión!");
     }
 }
