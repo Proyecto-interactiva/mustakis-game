@@ -5,10 +5,11 @@ using UnityEngine;
 
 public class GameOverDisplay : MonoBehaviour
 {
+    private GameManager gameManager;
     // Start is called before the first frame update
     void Start()
     {
-        
+        gameManager = FindObjectOfType<GameManager>();
     }
 
     // Update is called once per frame
@@ -25,6 +26,9 @@ public class GameOverDisplay : MonoBehaviour
     public void ExitGame()
     {
         FindObjectOfType<AudioManager>().Play("Close");
+        // Reinicio GLOBAL
+        gameManager.RestartEverything();
+        // Salida a menú
         SceneManager.LoadScene("Menu");
     }
 }

@@ -127,4 +127,9 @@ public class ConstellationManager : MonoBehaviour
     {
         return constellationNPCs;
     }
+
+    public static void RestartStatic()
+    {
+        Instance = null;
+    }
 }

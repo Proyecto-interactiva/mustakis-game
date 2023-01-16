@@ -94,4 +94,10 @@ public class UIQuestionBox : MonoBehaviour
         pendingConstellationPhase = phase;
         isConstellationPhasePending = true;
     }
+
+    public static void RestartStatic()
+    {
+        isAnswerConfirmedAndSent = false;
+        isAnswerInProgress = false;
+    }
 }

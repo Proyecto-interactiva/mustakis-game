@@ -16,4 +16,9 @@ public class ItemAssets : MonoBehaviour
     public Sprite book3;
     public Sprite book4;
     public Sprite book5;
+
+    public static void RestartStatic()
+    {
+        Instance = null;
+    }
 }
