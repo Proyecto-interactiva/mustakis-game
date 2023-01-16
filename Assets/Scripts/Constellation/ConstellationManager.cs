@@ -1,21 +1,22 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 // Manejo del orden general de las constelaciones en el mapa
 public class ConstellationManager : MonoBehaviour
 {
-    public enum ConstellationPhase { INTRO, QUESTION, OUTRO };
+    public enum ConstellationPhase { INTRO, QMESSAGES, QUESTIONS, OUTRO };
 
     // Variables
     public MessagesDisplay messagesDisplay;
+    public UIQuestionBox questionBox;
     [SerializeField]
     private GameObject constellationPrefab;
     [NonSerialized]
     public bool isSpawned; // Indica si ya se realizó el spawneo
     private GameManager gameManager;
     private List<Constellation> constellations;
+    private List<MustakisSaveData.ConstellationSave> constellationSaves;
 
     // Singleton
     public static ConstellationManager Instance { get; private set; }
@@ -35,6 +36,7 @@ public class ConstellationManager : MonoBehaviour
     {
         gameManager = FindObjectOfType<GameManager>();
         constellations = gameManager.mustakisGameData.scenes;
+        constellationSaves = gameManager.mustakisSaveData.questionPacks;
     }
 
     // Spawnear constelaciones (al azar)
@@ -51,9 +53,21 @@ public class ConstellationManager : MonoBehaviour
         int type = 1;
         foreach (Constellation constellation in constellations)
         {
+            // Buscar save correcto
+            MustakisSaveData.ConstellationSave currConstellationSave = null;
+            foreach (MustakisSaveData.ConstellationSave constellationSave in constellationSaves)
+            {
+                if (constellation.round == constellationSave.round)
+                {
+                    currConstellationSave = constellationSave;
+                    break;
+                }
+            }
+            if (currConstellationSave == null) { Debug.LogError("ConstellationManager: ConstellationSave NO encontrado para" + constellation.name); } // **NO DEBE PASAR
+
             int n_coords = outerCoords.Count;
             int indexChoosen = UnityEngine.Random.Range(0, n_coords - 1);
-            SpawnConstellation(constellation.name, constellation, outerCoords[indexChoosen].x, outerCoords[indexChoosen].y, type);
+            SpawnConstellation(constellation.name, constellation, currConstellationSave, outerCoords[indexChoosen].x, outerCoords[indexChoosen].y, type);
             outerCoords.RemoveAt(indexChoosen);
             type++;
             if (type > 5) type = 1;
@@ -62,7 +76,7 @@ public class ConstellationManager : MonoBehaviour
     }
 
     // Spawnear una constelación
-    private void SpawnConstellation(string info, Constellation constellation, float x, float y, int type)
+    private void SpawnConstellation(string info, Constellation constellation, MustakisSaveData.ConstellationSave constellationSave, float x, float y, int type)
     {
         GameObject newConstellation = Instantiate(constellationPrefab, new Vector3(x, y, 0), Quaternion.identity);
         ConstellationNPC currConstellationNPC = newConstellation.GetComponent<ConstellationNPC>();
@@ -89,6 +103,7 @@ public class ConstellationManager : MonoBehaviour
         }
         currConstellationNPC.content = info;
         currConstellationNPC.constellation = constellation;
+        currConstellationNPC.constellationSave = constellationSave;
         currConstellationNPC.gameObject.SetActive(true); // Necesario pues template "constellationPrefab" está desactivado
     }
 }

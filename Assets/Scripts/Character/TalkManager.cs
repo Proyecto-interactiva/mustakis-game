@@ -12,7 +12,6 @@ public class TalkManager : MonoBehaviour
 {
     public MessagesDisplay messageDisplay;
     public GameObject questionDisplay;
-    //public Button submitButton;
     public TMP_Text questionText;
     public TMP_Text answerText1;
     public TMP_Text answerText2;
@@ -155,14 +154,4 @@ public class TalkManager : MonoBehaviour
         //        }
         //    }
     }
-
-    //public void HideSubmit()
-    //{
-    //    submitButton.gameObject.SetActive(false);
-    //}
-
-    //public void ShowSubmit()
-    //{
-    //    submitButton.gameObject.SetActive(true);
-    //}
 }

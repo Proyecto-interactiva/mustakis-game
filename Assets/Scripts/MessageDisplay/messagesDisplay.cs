@@ -11,9 +11,13 @@ public class MessagesDisplay : MonoBehaviour
     public TMP_Text messageDisplay;
     public GameOverDisplay gameOverDisplay;
     List<string> messages;
-    // Fase
+    // Fase GameManager
     private GameManager.Phase pendingPhase; // Fase pendiente por aplicar a GameManager
     private bool isPhasePending; // Determina si se aplica pendingPhase o no
+    // Fase Constelación
+    private ConstellationManager.ConstellationPhase pendingConstellationPhase;
+    private bool isConstellationPhasePending;
+    private ConstellationNPC pendingConstellationTarget;
 
     int currentMessageIndex = -1;
 
@@ -24,6 +28,7 @@ public class MessagesDisplay : MonoBehaviour
     {
         gameManager = FindObjectOfType<GameManager>();
         isPhasePending = false;
+        isConstellationPhasePending = false;
         isFinished = true;
     }
 
@@ -57,6 +62,15 @@ public class MessagesDisplay : MonoBehaviour
         pendingPhase = phase;
     }
 
+    // Cambio de fase local de una constelación al cerrar los mensajes
+    public void ShowMessagesAndChangeConstellationPhaseOnClose(List<string> messages, ConstellationNPC constellation, ConstellationManager.ConstellationPhase phase)
+    {
+        ShowMessages(messages);
+        isConstellationPhasePending = true;
+        pendingConstellationTarget = constellation;
+        pendingConstellationPhase = phase;
+    }
+
     private void nextMessage()
     {
         FindObjectOfType<AudioManager>().Play("Text");
@@ -78,11 +92,19 @@ public class MessagesDisplay : MonoBehaviour
         this.gameObject.SetActive(false);
 
         // Aplicación de nueva fase, si se encuentra pendiente
-        if (isPhasePending && isFinished)
+        if (isPhasePending)
         {
             gameManager.currentPhase = pendingPhase;
             isPhasePending = false;
-            Debug.Log("Fase cambiada a " + pendingPhase);
+            Debug.Log("MessagesDisplay: Fase cambiada a " + pendingPhase);
+        }
+        // Aplicación de nueva fase local a constelacion, de estar pendiente
+        if (isConstellationPhasePending)
+        {
+            pendingConstellationTarget.currentConstellationPhase = pendingConstellationPhase;
+            isConstellationPhasePending = false;
+            pendingConstellationTarget = null;
+            Debug.Log("MessagesDisplay: Fase constelación local cambiada a " + pendingConstellationPhase);
         }
     }
 
