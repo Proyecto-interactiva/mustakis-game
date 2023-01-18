@@ -12146,8 +12146,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e52d2a0e93aa5fe4b91d5a10e56edba8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  messageDisplay: {fileID: 1286993218}
-  gameOverDisplay: {fileID: 149700428}
 --- !u!4 &717669430 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5892931112973229283, guid: b1608febb75eb2745930f8220e44aa74, type: 3}
@@ -16459,7 +16457,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1609174508417083307, guid: 85b8c5926bc75ab4dada02321b92ebbe, type: 3}
+  m_Sprite: {fileID: 1293465370, guid: 1243abc68e9fc564088ffe62c62884b2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
