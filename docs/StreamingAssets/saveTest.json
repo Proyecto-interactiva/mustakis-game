@@ -1,0 +1,147 @@
+{
+  "_id": {
+    "$oid": "63b62073086dc070270ed465"
+  },
+  "userName": "estudiante00",
+  "gameName": "testing",
+  "gameId": {
+    "$oid": "63b35e6a9a6945003317ab42"
+  },
+  "email": "estudiante00@yopmail.com",
+  "questionPacks": [
+    {
+      "_id": {
+        "$oid": "63b62073086dc070270ed466"
+      },
+      "round": 0,
+      "questionPacksId": {
+        "$oid": "633b79b679b51400206ef628"
+      },
+      "questions": [
+        {
+          "_id": {
+            "$oid": "63b62073086dc070270ed467"
+          },
+          "questionId": {
+            "$oid": "63b38a719ebe3617b1ddb430"
+          },
+          "order": 0,
+          "score": -1,
+          "answerId": {
+            "$oid": "63b3998de3ff801d410beedc"
+          },
+          "answer": "No",
+          "unlocked": true
+        },
+        {
+          "_id": {
+            "$oid": "63b62073086dc070270ed468"
+          },
+          "questionId": {
+            "$oid": "63b38a719ebe3617b1ddb434"
+          },
+          "order": 1,
+          "score": 0,
+          "answerId": null,
+          "answer": "",
+          "unlocked": false
+        },
+        {
+          "_id": {
+            "$oid": "63b62073086dc070270ed469"
+          },
+          "questionId": {
+            "$oid": "63b38a719ebe3617b1ddb438"
+          },
+          "order": 2,
+          "score": 0,
+          "answerId": null,
+          "answer": "",
+          "unlocked": false
+        },
+        {
+          "_id": {
+            "$oid": "63b62073086dc070270ed46a"
+          },
+          "questionId": {
+            "$oid": "63b38a719ebe3617b1ddb43c"
+          },
+          "order": 3,
+          "score": 0,
+          "answerId": null,
+          "answer": "",
+          "unlocked": false
+        },
+        {
+          "_id": {
+            "$oid": "63b62073086dc070270ed46b"
+          },
+          "questionId": {
+            "$oid": "63b38a719ebe3617b1ddb440"
+          },
+          "order": 4,
+          "score": 0,
+          "answerId": null,
+          "answer": "",
+          "unlocked": false
+        },
+        {
+          "_id": {
+            "$oid": "63b62073086dc070270ed46c"
+          },
+          "questionId": {
+            "$oid": "63b38a719ebe3617b1ddb444"
+          },
+          "order": 5,
+          "score": 0,
+          "answerId": null,
+          "answer": "",
+          "unlocked": false
+        }
+      ],
+      "unlocked": false,
+      "roundScore": -1
+    },
+    {
+      "_id": {
+        "$oid": "63b62073086dc070270ed46d"
+      },
+      "round": 1,
+      "questionPacksId": {
+        "$oid": "633b79b679b51400206ef623"
+      },
+      "questions": [
+        {
+          "_id": {
+            "$oid": "63b62073086dc070270ed46e"
+          },
+          "questionId": {
+            "$oid": "63b38a719ebe3617b1ddb449"
+          },
+          "order": 0,
+          "score": 0,
+          "answerId": null,
+          "answer": "",
+          "unlocked": false
+        },
+        {
+          "_id": {
+            "$oid": "63b62073086dc070270ed46f"
+          },
+          "questionId": {
+            "$oid": "63b38a719ebe3617b1ddb44d"
+          },
+          "order": 1,
+          "score": 0,
+          "answerId": null,
+          "answer": "",
+          "unlocked": false
+        }
+      ],
+      "unlocked": false,
+      "roundScore": 0
+    }
+  ],
+  "__v": 0,
+  "finalScore": -1
+}

@@ -14,6 +14,7 @@ public class RegisterManager : MonoBehaviour
     public TMP_Text errorLabel;
     public string errorMessage = "";
     public string unequalPassWarningMessage = "";
+    public string awaitingConnectionMessage = "";
     private TMP_InputField usernameInputField;
     private TMP_InputField emailInputField;
     private TMP_InputField passwordInputField;
@@ -63,6 +64,7 @@ public class RegisterManager : MonoBehaviour
         if (ArePasswordsEqual()) // Chequeo de contraseñas iguales
         {
             WWWForm form = Register();
+            errorLabel.SetText(awaitingConnectionMessage);
             StartCoroutine(gameManager.PostForm(uri, form, SuccessRegisterFallBackPLAY, ErrorRegisterFallBack));
         }
         else
@@ -79,6 +81,7 @@ public class RegisterManager : MonoBehaviour
         if (ArePasswordsEqual()) // Chequeo de contraseñas iguales
         {
             WWWForm form = Register();
+            errorLabel.SetText(awaitingConnectionMessage);
             StartCoroutine(gameManager.PostForm(uri, form, SuccessRegisterFallBackEXIT, ErrorRegisterFallBack));
         }
         else

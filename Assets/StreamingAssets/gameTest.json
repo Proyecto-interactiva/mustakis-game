@@ -1,0 +1,332 @@
+{
+  "_id": {
+    "$oid": "63b35e6a9a6945003317ab42"
+  },
+  "gameName": "testing",
+  "scenes": [
+    {
+      "intro": [
+        "Columba, la constelación de la paloma, inspiró a los argonautas y usaron su nombre para llamar a las palomas que envían para saber si podían cruzar o no el mar negro.",
+        "Levanta el dispositivo escáner para averiguar cómo energizar a la constelación."
+      ],
+      "outro": [
+        "Con tu atención en mí ahora me siento con energía y volveré a brillar.",
+        "Disfruta de mi esplendor y gracias por tu honestidad. 😀"
+      ],
+      "_id": {
+        "$oid": "633b79b679b51400206ef628"
+      },
+      "name": "Relaciones Positivas",
+      "round": 0,
+      "questionPacks": [
+        {
+          "messages": [
+            "Mi forma de paloma puede transformarse en tus sueños para enviar mensajes a tus amigos."
+          ],
+          "question": "¿Te gustaría enviar algún mensaje a alguien?",
+          "_id": {
+            "$oid": "63b38a719ebe3617b1ddb430"
+          },
+          "order": 0,
+          "answers": [
+            {
+              "_id": {
+                "$oid": "63b3998de3ff801d410beedc"
+              },
+              "content": "No",
+              "score": -1
+            },
+            {
+              "_id": {
+                "$oid": "63b3998de3ff801d410beedd"
+              },
+              "content": "No lo sé",
+              "score": 0
+            },
+            {
+              "_id": {
+                "$oid": "63b3998de3ff801d410beede"
+              },
+              "content": "Sí",
+              "score": 1
+            }
+          ]
+        },
+        {
+          "messages": [
+            "Ya veo. Me gusta compartir lo que ven mis estrellas con otras constelaciones."
+          ],
+          "question": "¿Tú también tienes amigos con los que compartas las cosas interesantes que ves?",
+          "_id": {
+            "$oid": "63b38a719ebe3617b1ddb434"
+          },
+          "order": 1,
+          "answers": [
+            {
+              "_id": {
+                "$oid": "633b7b9b79b51400206ef640"
+              },
+              "content": "No realmente",
+              "score": -1
+            },
+            {
+              "_id": {
+                "$oid": "633b7b9b79b51400206ef641"
+              },
+              "content": "Solo si me preguntan",
+              "score": 0
+            },
+            {
+              "_id": {
+                "$oid": "633b7b9b79b51400206ef642"
+              },
+              "content": "Sí, hablo con ellos",
+              "score": 1
+            }
+          ]
+        },
+        {
+          "messages": [
+            "A veces mis amigos están muy lejos y los mensajes demoran mucho en llegar. En esos momentos me siento sola…"
+          ],
+          "question": "¿Te has sentido solo también, porque tus amigos no son tan cercanos?",
+          "_id": {
+            "$oid": "63b38a719ebe3617b1ddb438"
+          },
+          "order": 2,
+          "answers": [
+            {
+              "_id": {
+                "$oid": "633b7b9b79b51400206ef640"
+              },
+              "content": "Creo que no",
+              "score": -1
+            },
+            {
+              "_id": {
+                "$oid": "633b7b9b79b51400206ef641"
+              },
+              "content": "No recuerdo",
+              "score": 0
+            },
+            {
+              "_id": {
+                "$oid": "633b7b9b79b51400206ef642"
+              },
+              "content": "Sí, a veces",
+              "score": 1
+            }
+          ]
+        },
+        {
+          "messages": [
+            "De todas formas cuando veo a mis amigas constelaciones brillando, me pongo feliz, sobretodo cuando me ayudan con mis problemas."
+          ],
+          "question": "¿Tus amigos te ayudaron en algo recientemente?",
+          "_id": {
+            "$oid": "63b38a719ebe3617b1ddb43c"
+          },
+          "order": 3,
+          "answers": [
+            {
+              "_id": {
+                "$oid": "633b7b9b79b51400206ef640"
+              },
+              "content": "No, en nada",
+              "score": -1
+            },
+            {
+              "_id": {
+                "$oid": "633b7b9b79b51400206ef641"
+              },
+              "content": "No lo sé",
+              "score": 0
+            },
+            {
+              "_id": {
+                "$oid": "633b7b9b79b51400206ef642"
+              },
+              "content": "¡Sí! me ayudaron",
+              "score": 1
+            }
+          ]
+        },
+        {
+          "messages": [],
+          "question": "¿Tienes muchos amigos como yo?",
+          "_id": {
+            "$oid": "63b38a719ebe3617b1ddb440"
+          },
+          "order": 4,
+          "answers": [
+            {
+              "_id": {
+                "$oid": "633b7b9b79b51400206ef640"
+              },
+              "content": "No",
+              "score": -1
+            },
+            {
+              "_id": {
+                "$oid": "633b7b9b79b51400206ef641"
+              },
+              "content": "No lo sé",
+              "score": 0
+            },
+            {
+              "_id": {
+                "$oid": "633b7b9b79b51400206ef642"
+              },
+              "content": "Sí",
+              "score": 1
+            }
+          ]
+        },
+        {
+          "messages": [
+            "Algunos de mis amigos no son buenos con los secretos, así que me cuesta contarles cosas importantes que me suceden "
+          ],
+          "question": "¿y tú le contarías algún secreto importante a tus amigos?",
+          "_id": {
+            "$oid": "63b38a719ebe3617b1ddb444"
+          },
+          "order": 5,
+          "answers": [
+            {
+              "_id": {
+                "$oid": "633b7b9b79b51400206ef640"
+              },
+              "content": "¡No me atrevo!",
+              "score": -1
+            },
+            {
+              "_id": {
+                "$oid": "633b7b9b79b51400206ef641"
+              },
+              "content": "Tengo que pensarlo",
+              "score": 0
+            },
+            {
+              "_id": {
+                "$oid": "633b7b9b79b51400206ef642"
+              },
+              "content": "¡Claro que sí!",
+              "score": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "intro": [
+        "Casiopea, una constelación con forma de silla. En la mitología suele representar a una reina que alardea de su belleza.",
+        "Levanta el dispositivo escáner para averiguar cómo energizar a la constelación."
+      ],
+      "outro": [
+        "Gracias por compartir tu experiencia conmigo, con tus aventuras volveré a brillar.",
+        "Disfruta de mi esplendor."
+      ],
+      "_id": {
+        "$oid": "633b79b679b51400206ef623"
+      },
+      "name": "Autoaceptación",
+      "round": 1,
+      "questionPacks": [
+        {
+          "messages": [
+            "Los humanos que me observan desde lejos a veces cuentan que ven mi espejo colgando de las estrellas que me componen.",
+            "Es mi favorito y siempre me muestra brillante y hermosa."
+          ],
+          "question": "¿Te gusta mirarte en el espejo también?",
+          "_id": {
+            "$oid": "63b38a719ebe3617b1ddb449"
+          },
+          "order": 0,
+          "answers": [
+            {
+              "_id": {
+                "$oid": "633b7b9b79b51400206ef640"
+              },
+              "content": "No",
+              "score": -1
+            },
+            {
+              "_id": {
+                "$oid": "633b7b9b79b51400206ef641"
+              },
+              "content": "No lo sé",
+              "score": 0
+            },
+            {
+              "_id": {
+                "$oid": "633b7b9b79b51400206ef642"
+              },
+              "content": "Sí",
+              "score": 1
+            }
+          ]
+        },
+        {
+          "messages": [
+            "El espejo muestra mi brillante historia de millones de años en el universo. Me gusta recordar todo lo que he vivido."
+          ],
+          "question": "¿Te hace feliz también recordar lo que has vivido?",
+          "_id": {
+            "$oid": "63b38a719ebe3617b1ddb44d"
+          },
+          "order": 1,
+          "answers": [
+            {
+              "_id": {
+                "$oid": "633b7b9b79b51400206ef640"
+              },
+              "content": "No realmente",
+              "score": -1
+            },
+            {
+              "_id": {
+                "$oid": "633b7b9b79b51400206ef641"
+              },
+              "content": "No sé",
+              "score": 0
+            },
+            {
+              "_id": {
+                "$oid": "633b7b9b79b51400206ef642"
+              },
+              "content": "Sí, siempre",
+              "score": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "sectionId": {
+    "$oid": "62d208fe3d1c7ecaa9f2d2e4"
+  },
+  "description": "Juego de prueba PM",
+  "active": true,
+  "__v": 0,
+  "dialogues": {
+    "introDialogues": [
+      "Hola, llegaste justo a cuando comenzaba a tomar fotos de las constelaciones con nuestro telescopio de astrofotografía.",
+      "Podemos tomar unas cuantas fotografías ahora, ¿Lo hacemos juntos?"
+    ],
+    "generalDialogues": [
+      "¡Increíble! Con los puntos de luz que recolectamos podemos reconstruir nuestras propias constelaciones en miniatura. ",
+      "Pero necesito tu ayuda. Nuestras muestras requieren de tu energía  neuronal para ser reactivadas.",
+      "Colócate el casco foto-cerebral para transmitirle tu energía a la constelación.",
+      "Busca las constelaciones en miniatura y conversa con ellas para revivirlas."
+    ],
+    "finalDialogues": [
+      "Muy buen trabajo. Lograste recuperar todas las constelaciones.",
+      "No fue tan difícil, ¿verdad?",
+      "Nos vemos en la próxima aventura."
+    ],
+    "tips": [
+      "Busca las constelaciones en miniatura y conversa con ellas para revivirlas."
+    ]
+  },
+  "maxScore": 8
+}

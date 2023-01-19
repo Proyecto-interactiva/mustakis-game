@@ -7,20 +7,33 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public enum Phase { INTRO, GENERAL, FINAL };
+
+    [NonSerialized]
+    public MustakisGameData mustakisGameData;
+    [NonSerialized]
+    public MustakisSaveData mustakisSaveData;
     private string jwt;
-    private string userName;
-    private string gameName;
-    private int stageId = 0;
-    private string generalUri = "https://eduju-backend.onrender.com/api"; // https://fractal-interactiva.herokuapp.com/api // "http://localhost:3000/api"; 
+    private string auxUserNameForSave; // Guarda redundantemente el username para newSave() y getSave(),
+                                       // cuando todavia no se tiene mustakisSaveData
+    private string generalUri = "https://planeta-backend.onrender.com/api"; 
     public GameObject bookPrefab;
 
     [NonSerialized]
     public string lastSceneBeforeTrailer = ""; // Tag de escena previa al trailer, para determinar escena posterior
+    // Gabo - Fases
+    [NonSerialized]
+    public Phase currentPhase;
+    // Gabo - FIN DE JUEGO
+    [NonSerialized]
+    public bool isGameFinished;
 
     private void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
         SceneManager.LoadScene("Menu");
+
+        currentPhase = Phase.INTRO; // Se activa fase inicial
     }
 
     public IEnumerator PostForm(string specificUri, WWWForm form, Action FallbackSuccess, Action FallbackError)
@@ -41,7 +54,7 @@ public class GameManager : MonoBehaviour
                 Debug.Log("Form upload complete!");
                 var json = www.downloadHandler.text;
                 var playerData = JsonUtility.FromJson<PlayerData>(json);
-                userName = playerData.name;
+                auxUserNameForSave = playerData.name;
                 StartCoroutine(Auth(form, FallbackSuccess, FallbackError));
 
             }
@@ -65,11 +78,11 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("Game found!");
                 var json = www.downloadHandler.text;
-                var gameData = JsonUtility.FromJson<GameData>(json);
-                gameName = gameData.gameName;
-                Debug.Log(gameName);
+                var gameData = JsonUtility.FromJson<MustakisGameData>(json);
+                mustakisGameData = gameData;
+                Debug.Log("Game found!: ->" + mustakisGameData.gameName + "<-");
+                Debug.Log(JsonUtility.ToJson(mustakisGameData));
                 FallbackSuccess();
 
             }
@@ -103,37 +116,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public IEnumerator NextMessage(int characterId, Action<MessagesResponse> CallBackSuccess, Action CallbackError)
+    public IEnumerator PostAnswer(WWWForm form, Action<FeedbackResponse> CallBackSuccess, Action CallbackError)
     {
-        using (UnityWebRequest www = UnityWebRequest.Get($"{generalUri}/game/messages?userName={userName}&gameName={gameName}&stageId={stageId}&character={characterId}"))
+        using (UnityWebRequest www = UnityWebRequest.Post($"{generalUri}/game/answer?email={mustakisSaveData.email}&gameName={mustakisGameData.gameName}", form))
         {
-            Debug.Log("Next messages requested");
-            www.SetRequestHeader("Authorization", $"Bearer {jwt}");
-            yield return www.SendWebRequest();
-
-            if (www.result != UnityWebRequest.Result.Success)
-            {
-                Debug.Log("Error");
-                Debug.Log(www.error);
-
-                CallbackError();
-            }
-            else
-            {
-                Debug.Log("Messages received!");
-                var json = www.downloadHandler.text;
-                var response = JsonUtility.FromJson<MessagesResponse>(json);
-                Debug.Log(response);
-                CallBackSuccess(response);
-            }
-        }
-    }
-
-    public IEnumerator PostAnswer(WWWForm form, int characterId, Action<FeedbackResponse> CallBackSuccess, Action CallbackError)
-    {
-        using (UnityWebRequest www = UnityWebRequest.Post($"{generalUri}/game/answer?userName={userName}&gameName={gameName}&stageId={stageId}&character={characterId}", form))
-        {
-            Debug.Log("Posting answers");
+            Debug.Log("Posting answer");
             www.SetRequestHeader("Authorization", $"Bearer {jwt}");
             yield return www.SendWebRequest();
 
@@ -147,19 +134,19 @@ public class GameManager : MonoBehaviour
             else
             {
                 Debug.Log("Answers posted!");
-                var json = www.downloadHandler.text;
-                var response = JsonUtility.FromJson<FeedbackResponse>(json);
-                Debug.Log(response);
+                string json = www.downloadHandler.text; 
+                var response = JsonUtility.FromJson<FeedbackResponse>(json);                
+                Debug.Log(json);
                 CallBackSuccess(response);
             }
         }
     }
 
-    public IEnumerator newSave(Action<Save> CallbackSuccess, Action CallbackError)
+    public IEnumerator newSave(Action<MustakisSaveData> CallbackSuccess, Action CallbackError)
     {
         WWWForm form = new WWWForm();
-        form.AddField("gameName", gameName);
-        form.AddField("userName", userName);
+        form.AddField("gameName", mustakisGameData.gameName);
+        form.AddField("userName", auxUserNameForSave);
         using (UnityWebRequest www = UnityWebRequest.Post($"{generalUri}/game/newEmpty", form))
         {
             Debug.Log("Creating new save");
@@ -175,18 +162,19 @@ public class GameManager : MonoBehaviour
             {
                 Debug.Log("New save created!");
                 var json = www.downloadHandler.text;
-                var save = JsonUtility.FromJson<Save>(json);
-                CallbackSuccess(save);
+                mustakisSaveData = JsonUtility.FromJson<MustakisSaveData>(json);
+                Debug.Log(JsonUtility.ToJson(mustakisSaveData));
+                CallbackSuccess(mustakisSaveData);
 
             }
         }
     }
 
-    public IEnumerator getSave(Action<Save> CallbackSuccess, Action CallbackError)
+    public IEnumerator getSave(Action<MustakisSaveData> CallbackSuccess, Action CallbackError)
     {
-        using (UnityWebRequest www = UnityWebRequest.Get($"{generalUri}/game?userName={userName}&gameName={gameName}"))
+        using (UnityWebRequest www = UnityWebRequest.Get($"{generalUri}/game?userName={auxUserNameForSave}&gameName={mustakisGameData.gameName}"))
         {
-            Debug.Log("Creating new save");
+            Debug.Log("Getting save");
             www.SetRequestHeader("Authorization", $"Bearer {jwt}");
             yield return www.SendWebRequest();
 
@@ -200,59 +188,30 @@ public class GameManager : MonoBehaviour
             {
                 Debug.Log("Save found!");
                 var json = www.downloadHandler.text;
-                var save = JsonUtility.FromJson<Save>(json);
-                CallbackSuccess(save);
+                mustakisSaveData = JsonUtility.FromJson<MustakisSaveData>(json);
+                Debug.Log(JsonUtility.ToJson(mustakisSaveData));
+                CallbackSuccess(mustakisSaveData);
             }
         }
     }
 
-    public void SpawnBooks(List<string> answers)
+    // REINICIO de variables PERSISTENTES o ESTÁTICAS relevantes
+    public void RestartEverything()
     {
-        
-        List<(int x, int y)> outerCoords = new List<(int, int)> {
-            (-8, 9), (-6, 9), (-4, 9), (-2, 9), (-0, 9), (2, 9), (4, 9), (6, 9), (8, 9),
-            (11, 9), (11, 11), (11, 13), (11, 15), (11, 17), (11, 19), (11, 21), (11, 23), (11, 25),
-            (11, 27), (-6, 27), (-4, 27), (-2, 27), (-0, 27), (2, 27), (4, 27), (6, 27), (8, 27),
-            (-8, 27), (-8, 11), (-8, 13), (-8, 15), (-8, 17), (-8, 19), (-8, 21), (-8, 23), (-8, 25),
-        };
-        
-        int type = 1;
-        foreach (string answer in answers)
-        {
-            int n_coords = outerCoords.Count;
-            int indexChoosen = UnityEngine.Random.Range(0, n_coords - 1);
-            SpawnBook(answer, outerCoords[indexChoosen].x, outerCoords[indexChoosen].y, type);
-            outerCoords.RemoveAt(indexChoosen);
-            type++;
-            if (type > 5) type = 1;
-        }
+        _Restart();
+        UIQuestionBox.RestartStatic();
+        ItemAssets.RestartStatic();
+        Debug.Log("GameManager: ¡Reiniciando variables!"); 
     }
-
-    private void SpawnBook(string answer, float x, float y, int type)
+    private void _Restart()
     {
-        GameObject newBook = Instantiate(bookPrefab, new Vector3(x, y, 0), Quaternion.identity);
-        Item item = newBook.GetComponent<Item>();
-        switch (type)
-        {
-            case 1:
-                item.itemType = Item.ItemType.Book1;
-                break;
-            case 2:
-                item.itemType = Item.ItemType.Book2;
-                break;
-            case 3:
-                item.itemType = Item.ItemType.Book3;
-                break;
-            case 4:
-                item.itemType = Item.ItemType.Book4;
-                break;
-            case 5:
-                item.itemType = Item.ItemType.Book5;
-                break;
-            default:
-                item.itemType = Item.ItemType.Book1;
-                break;
-        }
-        newBook.GetComponent<Item>().content = answer;
+
+        mustakisGameData = null;
+        mustakisSaveData = null;
+        jwt = null;
+        auxUserNameForSave = null;
+        lastSceneBeforeTrailer = "";
+        currentPhase = Phase.INTRO;
+        isGameFinished = false;
     }
 }

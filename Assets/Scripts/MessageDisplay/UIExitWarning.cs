@@ -5,9 +5,19 @@ using UnityEngine.SceneManagement;
 
 public class UIExitWarning : MonoBehaviour
 {
+    private GameManager gameManager;
+
+    public void Awake()
+    {
+        gameManager = FindObjectOfType<GameManager>();  
+    }
+
     public void ExitToTitle()
     {
         FindObjectOfType<AudioManager>().Play("Close");
+        // Reinicio GLOBAL
+        gameManager.RestartEverything();
+        // Vuelta a menú
         SceneManager.LoadScene("Menu");
     }
 

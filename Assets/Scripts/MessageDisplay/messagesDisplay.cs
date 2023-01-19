@@ -1,20 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class MessagesDisplay : MonoBehaviour
 {
-    bool lastMessage = false;
+    private GameManager gameManager;
     public TMP_Text messageDisplay;
     public GameOverDisplay gameOverDisplay;
     List<string> messages;
+    // Fase GameManager
+    private GameManager.Phase pendingPhase; // Fase pendiente por aplicar a GameManager
+    private bool isPhasePending; // Determina si se aplica pendingPhase o no
+    // Fase Constelación
+    private ConstellationManager.ConstellationPhase pendingConstellationPhase;
+    private bool isConstellationPhasePending;
+    private ConstellationNPC pendingConstellationTarget;
+    // CIERRE de JUEGO
+    private bool isGameOverPending;
+
     int currentMessageIndex = -1;
-    // Start is called before the first frame update
-    void Start()
+
+    [NonSerialized]
+    public bool isFinished; // Indica si se terminaron los mensajes por mostrar
+
+    private void Awake()
     {
-        
+        gameManager = FindObjectOfType<GameManager>();
+        isPhasePending = false;
+        isConstellationPhasePending = false;
+        isGameOverPending = false;
+        isFinished = true;
     }
 
     // Update is called once per frame
@@ -28,19 +47,42 @@ public class MessagesDisplay : MonoBehaviour
         {
             messageDisplay.text = "";
         }
-        
     }
 
     public void ShowMessages(List<string> messages)
     {
+        isFinished = false;
         this.gameObject.SetActive(true);
         this.messages = messages;
-        Debug.Log(this.messages);
-        Debug.Log(this.messages.Count);
+        Debug.Log("Message count: " + this.messages.Count);
         nextMessage();
     }
 
-    public void nextMessage()
+    // Cambio de fase en gameManager al cerrar los mensajes
+    public void ShowMessagesAndChangePhaseOnClose(List<string> messages, GameManager.Phase phase)
+    {
+        ShowMessages(messages);
+        isPhasePending = true;
+        pendingPhase = phase;
+    }
+
+    // Cambio de fase local de una constelación al cerrar los mensajes
+    public void ShowMessagesAndChangeConstellationPhaseOnClose(List<string> messages, ConstellationNPC constellation, ConstellationManager.ConstellationPhase phase)
+    {
+        ShowMessages(messages);
+        isConstellationPhasePending = true;
+        pendingConstellationTarget = constellation;
+        pendingConstellationPhase = phase;
+    }
+
+    // Para usarse con el discurso final del NPC. Cierra la partida.
+    public void ShowMessagesAndSetGameFinishedOnClose(List<string> messages)
+    {
+        ShowMessages(messages);
+        isGameOverPending = true;
+    }
+
+    private void nextMessage()
     {
         FindObjectOfType<AudioManager>().Play("Text");
         if (currentMessageIndex + 1 < messages.Count)
@@ -50,25 +92,36 @@ public class MessagesDisplay : MonoBehaviour
         else
         {
             HideDisplay();
-            if (lastMessage) gameOverDisplay.Show();
         }
     }
 
-    void HideDisplay()
+    private void HideDisplay()
     {
+        isFinished = true;
         currentMessageIndex = -1;
-        messages.Clear();
+        messages = new List<string>();
         this.gameObject.SetActive(false);
-    }
 
-    public void ShowLastMessage(List<string> messages)
-    {
-        lastMessage = true;
-        this.gameObject.SetActive(true);
-        this.messages = messages;
-        Debug.Log(this.messages);
-        Debug.Log(this.messages.Count);
-        nextMessage();
+        // Aplicación de nueva fase, si se encuentra pendiente
+        if (isPhasePending)
+        {
+            gameManager.currentPhase = pendingPhase;
+            isPhasePending = false;
+            Debug.Log("MessagesDisplay: Fase cambiada a " + pendingPhase);
+        }
+        // Aplicación de nueva fase local a constelacion, de estar pendiente
+        if (isConstellationPhasePending)
+        {
+            pendingConstellationTarget.currentConstellationPhase = pendingConstellationPhase;
+            isConstellationPhasePending = false;
+            pendingConstellationTarget = null;
+            Debug.Log("MessagesDisplay: Fase constelación local cambiada a " + pendingConstellationPhase);
+        }
+        if (isGameOverPending)
+        {
+            FindObjectOfType<GameManager>().isGameFinished = true;
+            Debug.Log("MessageDisplay: Seteando el juego como TERMINADO");
+        }
     }
 
 

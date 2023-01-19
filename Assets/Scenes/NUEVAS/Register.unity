@@ -4377,6 +4377,7 @@ MonoBehaviour:
   errorLabel: {fileID: 1332361126}
   errorMessage: Error al ingresar datos. Revise e intente nuevamente.
   unequalPassWarningMessage: "Las contrase\xF1as deben ser iguales."
+  awaitingConnectionMessage: "Estableciendo conexi\xF3n..."
 --- !u!1 &2104343333
 GameObject:
   m_ObjectHideFlags: 0

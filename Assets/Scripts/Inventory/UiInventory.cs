@@ -16,12 +16,27 @@ public class UiInventory : MonoBehaviour
     private Transform itemSlotContainer; // Grid Layout Group que contiene los libros
     private Transform itemSlotTemplate;
 
+    private bool isConstellationsAddedToInventory;
+
     private void Awake()
     {
         itemSlotContainer = transform.Find("ItemSlotContainer");
         itemSlotTemplate = itemSlotContainer.Find("ItemSlotTemplate");
+        isConstellationsAddedToInventory = false;
         Debug.Log(itemSlotContainer);
         Debug.Log(itemSlotTemplate);
+    }
+    private void Update()
+    {
+        // Agregar constelaciones, cuando spawneen, al inventario
+        if (!isConstellationsAddedToInventory && ConstellationManager.Instance.isSpawned)
+        {
+            foreach (ConstellationNPC constellation in ConstellationManager.Instance.GetConstellationNPCs())
+            {
+                inventory.AddConstellation(constellation);
+            }
+            isConstellationsAddedToInventory = true;
+        }
     }
 
     public void SetInventory(Inventory inventory)
@@ -33,22 +48,31 @@ public class UiInventory : MonoBehaviour
 
     private void RefreshInventoryItems()
     {
-        Debug.Log("Updating UI");
+        Debug.Log("UIInventory: Updating UI");
         foreach (Transform child in itemSlotContainer)
         {
             if (child == itemSlotTemplate) continue;
             Destroy(child.gameObject);
         }
 
-        foreach (Item item in inventory.GetItemList())
+        foreach (ConstellationNPC constellation in inventory.GetConstellationList())
         {
             RectTransform itemSlotRectTransform = Instantiate(itemSlotTemplate, itemSlotContainer).GetComponent<RectTransform>();
             itemSlotRectTransform.gameObject.SetActive(true);
-            //itemSlotRectTransform.anchoredPosition = new Vector2(0, y * itemSlotCellSize);
             Image image = itemSlotRectTransform.Find("Image").GetComponent<Image>();
-            image.sprite = item.GetSprite();
+            image.sprite = constellation.GetSprite();
             Button button = itemSlotRectTransform.Find("DropButton").GetComponent<Button>();
-            button.onClick.AddListener(delegate { inventory.RemoveItem(item); });
+            button.onClick.AddListener( delegate { AudioManager.instance.Play("Text"); } );
+
+            // Si no está descubierta va en negrita, de lo contrario va a color.
+            if (constellation.isComplete)
+            {
+                image.color = Color.white;
+            }
+            else
+            {
+                image.color = Color.black;
+            }
         }
     }
 
@@ -92,5 +116,4 @@ public class UiInventory : MonoBehaviour
             helpMenu.gameObject.SetActive(true);
         }
     }
-
 }
