@@ -16,8 +16,7 @@ public class GameManager : MonoBehaviour
     private string jwt;
     private string auxUserNameForSave; // Guarda redundantemente el username para newSave() y getSave(),
                                        // cuando todavia no se tiene mustakisSaveData
-    private string generalUri = "https://planeta-backend.onrender.com/api"; 
-    public GameObject bookPrefab;
+    private string generalUri = "https://planeta-backend.onrender.com/api";
 
     [NonSerialized]
     public string lastSceneBeforeTrailer = ""; // Tag de escena previa al trailer, para determinar escena posterior
