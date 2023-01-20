@@ -7,7 +7,7 @@ AnimationClip:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Rotating_Eyes
-  serializedVersion: 6
+  serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
   m_UseHighQualityCurve: 1
@@ -45,6 +45,7 @@ AnimationClip:
       typeID: 114
       customType: 0
       isPPtrCurve: 1
+      isIntCurve: 0
     pptrCurveMapping:
     - {fileID: 21300000, guid: 9786bc417a4f8264d938f812c0adcc1e, type: 3}
     - {fileID: 21300000, guid: cf1f3be815738814e98914eeb0f675de, type: 3}

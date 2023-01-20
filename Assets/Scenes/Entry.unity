@@ -152,22 +152,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4e6a2975514fb4eb145538225d4a92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mustakisGameData:
-    gameName: 
-    scenes: []
-    description: 
-    dialogues:
-      introDialogues: []
-      generalDialogues: []
-      finalDialogues: []
-      tips: []
-    maxScore: 0
-  mustakisSaveData:
-    userName: 
-    gameName: 
-    email: 
-    questionPacks: []
-    finalScore: 0
   bookPrefab: {fileID: 7902011897419779775, guid: 275c75ded77c9294a830ecff6cf518aa, type: 3}
 --- !u!4 &384653615
 Transform:
