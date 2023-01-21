@@ -12543,9 +12543,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5876acff82e37e54d831d58087cbcdde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  constellation1: {fileID: 21300000, guid: 486e5c8ca324e7f42bb4cb98a2afe7de, type: 3}
-  constellation2: {fileID: 21300000, guid: 9ef212272d3597f4382fd6eb43ac9b68, type: 3}
-  constellation3: {fileID: 21300000, guid: 8d70f94d488a5db43a597c8c8709c33e, type: 3}
+  constellation1OFF: {fileID: 21300000, guid: 486e5c8ca324e7f42bb4cb98a2afe7de, type: 3}
+  constellation2OFF: {fileID: 21300000, guid: 9ef212272d3597f4382fd6eb43ac9b68, type: 3}
+  constellation3OFF: {fileID: 21300000, guid: 8d70f94d488a5db43a597c8c8709c33e, type: 3}
+  constellation1ON: {fileID: 21300000, guid: ba0503ec915d55347bf5d2327bfae80d, type: 3}
+  constellation2ON: {fileID: 21300000, guid: df6160e3892a7fb45af5a4eafcf79f7c, type: 3}
+  constellation3ON: {fileID: 21300000, guid: 2317e558380b824488999d1d8624c69b, type: 3}
 --- !u!1 &644902827
 GameObject:
   m_ObjectHideFlags: 0
@@ -13284,7 +13287,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &771703093
 RectTransform:
   m_ObjectHideFlags: 0

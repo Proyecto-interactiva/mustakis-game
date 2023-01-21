@@ -64,15 +64,15 @@ public class UiInventory : MonoBehaviour
             Button button = itemSlotRectTransform.Find("DropButton").GetComponent<Button>();
             button.onClick.AddListener( delegate { AudioManager.instance.Play("Text"); } );
 
-            // Si no está descubierta va en negrita, de lo contrario va a color.
-            if (constellation.isComplete)
-            {
-                image.color = Color.white;
-            }
-            else
-            {
-                image.color = Color.black;
-            }
+            //// Si no está descubierta va en negrita, de lo contrario va a color.
+            //if (constellation.isComplete)
+            //{
+            //    image.color = Color.white;
+            //}
+            //else
+            //{
+            //    image.color = Color.black;
+            //}
         }
     }
 

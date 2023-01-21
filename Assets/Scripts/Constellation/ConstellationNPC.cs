@@ -11,9 +11,6 @@ public class ConstellationNPC : MonoBehaviour
     // Sprites
     private GameObject info;
     private SpriteRenderer spriteRenderer;
-    public Sprite constellation1Sprite;
-    public Sprite constellation2Sprite;
-    public Sprite constellation3Sprite;
     public enum ConstellationType
     {
         Constellation1,
@@ -21,7 +18,9 @@ public class ConstellationNPC : MonoBehaviour
         Constellation3,
     }
 
+    [NonSerialized]
     public ConstellationType constellationType;
+    [NonSerialized]
     public string content;
 
     public TMP_Text infoBoxText;
@@ -46,6 +45,7 @@ public class ConstellationNPC : MonoBehaviour
     // Completación
     [NonSerialized]
     public bool isComplete;
+    private bool isTurnedOn;
 
 
     private void Start()
@@ -62,23 +62,23 @@ public class ConstellationNPC : MonoBehaviour
         switch (constellationType)
         {
             case ConstellationType.Constellation1:
-                spriteRenderer.sprite = constellation1Sprite;
+                spriteRenderer.sprite = ConstellationAssets.Instance.constellation1OFF;
                 break;
             case ConstellationType.Constellation2:
-                spriteRenderer.sprite = constellation2Sprite;
+                spriteRenderer.sprite = ConstellationAssets.Instance.constellation2OFF;
                 break;
             case ConstellationType.Constellation3:
-                spriteRenderer.sprite = constellation3Sprite;
+                spriteRenderer.sprite = ConstellationAssets.Instance.constellation3OFF;
                 break;
             default:
-                spriteRenderer.sprite = constellation1Sprite;
+                spriteRenderer.sprite = ConstellationAssets.Instance.constellation1OFF;
                 break;
         }
     }
 
     private void Update()
     {
-        // Si NO está completo, sigue. De lo contrario Update() termina aquí mismo.
+        // Si NO está completo...
         if (!isComplete)
         {
         // Si ya se completó hasta la última pregunta se establece isComplete=true
@@ -123,6 +123,16 @@ public class ConstellationNPC : MonoBehaviour
                 }
             }
         }
+        // Si está completo, enciende constelación
+        else
+        {
+            if (!isTurnedOn)
+            {
+                // Se obtiene sprite encendido
+                spriteRenderer.sprite = GetSprite();
+                isTurnedOn = true;
+            }
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D player)
@@ -155,7 +165,7 @@ public class ConstellationNPC : MonoBehaviour
     // Se obtiene índice de la última pregunta sin contestar
     private int ParseInitialLastUnansweredQuestionIndex()
     {
-        return 0; // ***DEBUGGING***
+        //return 0; // ***DEBUGGING***
         int questionIndex = 0;
         foreach (MustakisSaveData.ConstellationSave.QuestionSave questionSave in constellationSave.questions)
         {
@@ -172,14 +182,28 @@ public class ConstellationNPC : MonoBehaviour
         return -1;
     }
 
+    // Retorna sprite correspondiente, el cual depende de si está completo (encendido) o no (apagado)
     public Sprite GetSprite()
     {
-        switch (constellationType)
+        if (!isComplete)
         {
-            default:
-            case ConstellationType.Constellation1: return ConstellationAssets.Instance.constellation1;
-            case ConstellationType.Constellation2: return ConstellationAssets.Instance.constellation2;
-            case ConstellationType.Constellation3: return ConstellationAssets.Instance.constellation3;
+            switch (constellationType)
+            {
+                default:
+                case ConstellationType.Constellation1: return ConstellationAssets.Instance.constellation1OFF;
+                case ConstellationType.Constellation2: return ConstellationAssets.Instance.constellation2OFF;
+                case ConstellationType.Constellation3: return ConstellationAssets.Instance.constellation3OFF;
+            }
+        }
+        else
+        {
+            switch (constellationType)
+            {
+                default:
+                case ConstellationType.Constellation1: return ConstellationAssets.Instance.constellation1ON;
+                case ConstellationType.Constellation2: return ConstellationAssets.Instance.constellation2ON;
+                case ConstellationType.Constellation3: return ConstellationAssets.Instance.constellation3ON;
+            }
         }
     }
 }

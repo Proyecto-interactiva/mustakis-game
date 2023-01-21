@@ -109,7 +109,10 @@ public class RegisterManager : MonoBehaviour
         FindObjectOfType<AudioManager>().Play("Open");
 
         gameManager.lastSceneBeforeTrailer = SceneManager.GetActiveScene().name;
-        SceneManager.LoadScene("Trailer"); // Primer ingreso, se inicia trailer
+
+        // ****TRAILER DESACTIVADO HASTA TENER UNO NUEVO***
+        //SceneManager.LoadScene("Trailer"); // Primer ingreso, se inicia trailer
+        SceneManager.LoadScene("Play Menu");
     }
     private void SuccessRegisterFallBackEXIT()
     {
