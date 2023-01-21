@@ -11,21 +11,17 @@ public class ConstellationNPC : MonoBehaviour
     // Sprites
     private GameObject info;
     private SpriteRenderer spriteRenderer;
-    public Sprite book1Sprite;
-    public Sprite book2Sprite;
-    public Sprite book3Sprite;
-    public Sprite book4Sprite;
-    public Sprite book5Sprite;
-    public enum ItemType
+    public Sprite constellation1Sprite;
+    public Sprite constellation2Sprite;
+    public Sprite constellation3Sprite;
+    public enum ConstellationType
     {
-        Book1,
-        Book2,
-        Book3,
-        Book4,
-        Book5
+        Constellation1,
+        Constellation2,
+        Constellation3,
     }
 
-    public ItemType itemType;
+    public ConstellationType constellationType;
     public string content;
 
     public TMP_Text infoBoxText;
@@ -48,6 +44,7 @@ public class ConstellationNPC : MonoBehaviour
     private int lastUnansweredQuestionIndex;
 
     // Completación
+    [NonSerialized]
     public bool isComplete;
 
 
@@ -62,25 +59,19 @@ public class ConstellationNPC : MonoBehaviour
         
         infoBoxText.text = content;
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
-        switch (itemType)
+        switch (constellationType)
         {
-            case ItemType.Book1:
-                spriteRenderer.sprite = book1Sprite;
+            case ConstellationType.Constellation1:
+                spriteRenderer.sprite = constellation1Sprite;
                 break;
-            case ItemType.Book2:
-                spriteRenderer.sprite = book2Sprite;
+            case ConstellationType.Constellation2:
+                spriteRenderer.sprite = constellation2Sprite;
                 break;
-            case ItemType.Book3:
-                spriteRenderer.sprite = book3Sprite;
-                break;
-            case ItemType.Book4:
-                spriteRenderer.sprite = book4Sprite;
-                break;
-            case ItemType.Book5:
-                spriteRenderer.sprite = book5Sprite;
+            case ConstellationType.Constellation3:
+                spriteRenderer.sprite = constellation3Sprite;
                 break;
             default:
-                spriteRenderer.sprite = book1Sprite;
+                spriteRenderer.sprite = constellation1Sprite;
                 break;
         }
     }
@@ -164,7 +155,7 @@ public class ConstellationNPC : MonoBehaviour
     // Se obtiene índice de la última pregunta sin contestar
     private int ParseInitialLastUnansweredQuestionIndex()
     {
-        //return 0; // ***DEBUGGING***
+        return 0; // ***DEBUGGING***
         int questionIndex = 0;
         foreach (MustakisSaveData.ConstellationSave.QuestionSave questionSave in constellationSave.questions)
         {
@@ -183,14 +174,12 @@ public class ConstellationNPC : MonoBehaviour
 
     public Sprite GetSprite()
     {
-        switch (itemType)
+        switch (constellationType)
         {
             default:
-            case ItemType.Book1: return ItemAssets.Instance.book1;
-            case ItemType.Book2: return ItemAssets.Instance.book2;
-            case ItemType.Book3: return ItemAssets.Instance.book3;
-            case ItemType.Book4: return ItemAssets.Instance.book4;
-            case ItemType.Book5: return ItemAssets.Instance.book5;
+            case ConstellationType.Constellation1: return ConstellationAssets.Instance.constellation1;
+            case ConstellationType.Constellation2: return ConstellationAssets.Instance.constellation2;
+            case ConstellationType.Constellation3: return ConstellationAssets.Instance.constellation3;
         }
     }
 }

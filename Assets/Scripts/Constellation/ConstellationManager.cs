@@ -45,11 +45,10 @@ public class ConstellationManager : MonoBehaviour
     public void SpawnConstellations()
     {
 
-        List<(int x, int y)> outerCoords = new List<(int, int)> {
-            (-8, 9), (-6, 9), (-4, 9), (-2, 9), (-0, 9), (2, 9), (4, 9), (6, 9), (8, 9),
-            (11, 9), (11, 11), (11, 13), (11, 15), (11, 17), (11, 19), (11, 21), (11, 23), (11, 25),
-            (11, 27), (-6, 27), (-4, 27), (-2, 27), (-0, 27), (2, 27), (4, 27), (6, 27), (8, 27),
-            (-8, 27), (-8, 11), (-8, 13), (-8, 15), (-8, 17), (-8, 19), (-8, 21), (-8, 23), (-8, 25),
+        List<(float x, float y)> outerCoords = new List<(float, float)> {
+            (-4.565f, -21.296f), (8.45f, -21.296f), (-7.56f, -18.31f), (11.44f, -19.32f), (1.979f, -21.788f),
+            (5.95f, -15.85f), (2.021f, -15.85f), (-6.01f, -7.84f), (-2.01f, -7.84f), (1.98f, -4.88f),
+            (7.92f, -5.84f), (12.91f, -13.84f), (-8.56f, -13.34f), (2.021f,-11.4f)
         };
 
         int type = 1;
@@ -72,7 +71,7 @@ public class ConstellationManager : MonoBehaviour
             SpawnConstellation(constellation.name, constellation, currConstellationSave, outerCoords[indexChoosen].x, outerCoords[indexChoosen].y, type);
             outerCoords.RemoveAt(indexChoosen);
             type++;
-            if (type > 5) type = 1;
+            if (type > 3) type = 1;
         }
         isSpawned = true;
     }
@@ -85,22 +84,16 @@ public class ConstellationManager : MonoBehaviour
         switch (type)
         {
             case 1:
-                currConstellationNPC.itemType = ConstellationNPC.ItemType.Book1;
+                currConstellationNPC.constellationType = ConstellationNPC.ConstellationType.Constellation1;
                 break;
             case 2:
-                currConstellationNPC.itemType = ConstellationNPC.ItemType.Book2;
+                currConstellationNPC.constellationType = ConstellationNPC.ConstellationType.Constellation2;
                 break;
             case 3:
-                currConstellationNPC.itemType = ConstellationNPC.ItemType.Book3;
-                break;
-            case 4:
-                currConstellationNPC.itemType = ConstellationNPC.ItemType.Book4;
-                break;
-            case 5:
-                currConstellationNPC.itemType = ConstellationNPC.ItemType.Book5;
+                currConstellationNPC.constellationType = ConstellationNPC.ConstellationType.Constellation3;
                 break;
             default:
-                currConstellationNPC.itemType = ConstellationNPC.ItemType.Book1;
+                currConstellationNPC.constellationType = ConstellationNPC.ConstellationType.Constellation1;
                 break;
         }
         currConstellationNPC.content = info;
@@ -128,6 +121,7 @@ public class ConstellationManager : MonoBehaviour
         return constellationNPCs;
     }
 
+    // Borra singleton. Usado afuera cuando se sale (Ej.: Para loguearse con otro usuario)
     public static void RestartStatic()
     {
         Instance = null;

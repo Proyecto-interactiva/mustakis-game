@@ -5157,7 +5157,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &149700427
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6321,7 +6321,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 8.7
+  m_fontSize: 10
   m_fontSizeBase: 10
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -6357,7 +6357,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: 0, w: -4.574749}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -12515,6 +12515,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e52d2a0e93aa5fe4b91d5a10e56edba8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  messageDisplay: {fileID: 0}
+  gameOverDisplay: {fileID: 0}
 --- !u!4 &717669430 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5892931112973229283, guid: b1608febb75eb2745930f8220e44aa74, type: 3}
@@ -12726,7 +12728,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &771703093
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15696,7 +15698,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.03474167, y: -6.34643}
+  m_AnchoredPosition: {x: 0.03474167, y: -4.2}
   m_SizeDelta: {x: 231.35974, y: 11.070733}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1226059656
@@ -15746,7 +15748,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 10.45
+  m_fontSize: 15
   m_fontSizeBase: 15
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -15782,7 +15784,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0.5851422}
+  m_margin: {x: 0, y: 0, z: 0, w: -4.5278096}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -18165,10 +18167,6 @@ MonoBehaviour:
   gameOverDisplay: {fileID: 149700428}
   questionDisplay: {fileID: 787581327}
   questionText: {fileID: 1727297699}
-  answerText1: {fileID: 994742805}
-  answerText2: {fileID: 0}
-  answerText3: {fileID: 0}
-  answerText4: {fileID: 0}
 --- !u!1001 &1688901126
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19067,7 +19065,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\xBFEst\xE1s seguro de que deseas salir? Tu progreso se guardar\xE1."
+  m_text: "\xBFEst\xE1s seguro de que deseas salir? Puedes continuar m\xE1s adelante."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e8e2042b8f985d543b387996f06507d1, type: 2}
   m_sharedMaterial: {fileID: 6343778258235259176, guid: e8e2042b8f985d543b387996f06507d1, type: 2}

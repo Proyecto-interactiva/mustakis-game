@@ -447,7 +447,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 68d18b9e360c467469bee2f97ac41db1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 486e5c8ca324e7f42bb4cb98a2afe7de, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -486,12 +486,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c33fa8d1d92674e4ea98dfefa355361c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  book1Sprite: {fileID: 21300000, guid: 68d18b9e360c467469bee2f97ac41db1, type: 3}
-  book2Sprite: {fileID: 21300000, guid: 3c0f105bc58e2ef42be7fcbd436004a2, type: 3}
-  book3Sprite: {fileID: 21300000, guid: 8c5f89cd2f93556458923fa8c2cb93cd, type: 3}
-  book4Sprite: {fileID: 21300000, guid: 9f4bf0130015f0242ac2b1c8b88d20b6, type: 3}
-  book5Sprite: {fileID: 21300000, guid: f0fd1caa37f9b614192ea733b1b75870, type: 3}
-  itemType: 0
+  constellation1Sprite: {fileID: 21300000, guid: 486e5c8ca324e7f42bb4cb98a2afe7de, type: 3}
+  constellation2Sprite: {fileID: 21300000, guid: 9ef212272d3597f4382fd6eb43ac9b68, type: 3}
+  constellation3Sprite: {fileID: 21300000, guid: 8d70f94d488a5db43a597c8c8709c33e, type: 3}
+  constellationType: 0
   content: 
   infoBoxText: {fileID: 7902011897561092818}
   isComplete: 0

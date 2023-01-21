@@ -14,10 +14,6 @@ public class TalkManager : MonoBehaviour
     public GameOverDisplay gameOverDisplay;
     public GameObject questionDisplay;
     public TMP_Text questionText;
-    public TMP_Text answerText1;
-    public TMP_Text answerText2;
-    public TMP_Text answerText3;
-    public TMP_Text answerText4;
 
     GameManager gameManager;
     Inventory inventory;

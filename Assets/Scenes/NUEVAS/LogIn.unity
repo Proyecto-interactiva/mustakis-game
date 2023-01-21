@@ -2500,7 +2500,7 @@ GameObject:
   - component: {fileID: 1839556401}
   - component: {fileID: 1839556403}
   m_Layer: 5
-  m_Name: SkullLogo
+  m_Name: GuardianLogo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2515,16 +2515,16 @@ RectTransform:
   m_GameObject: {fileID: 1839556398}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.73501223, y: 0.73501223, z: 0.73501223}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1534793345}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.43749997, y: 0.77227277}
-  m_AnchorMax: {x: 0.56250006, y: 0.8862728}
-  m_AnchoredPosition: {x: -0.0023231506, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.38125005, y: 0.73600006}
+  m_AnchorMax: {x: 0.63125, y: 0.9155455}
+  m_AnchoredPosition: {x: -2, y: 0.19999695}
+  m_SizeDelta: {x: 20, y: 21}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1839556401
 MonoBehaviour:
@@ -2546,7 +2546,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 9786bc417a4f8264d938f812c0adcc1e, type: 3}
+  m_Sprite: {fileID: 156085597, guid: a17b24e0b22a3b748bc9cce6c5097f32, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2574,7 +2574,7 @@ Animator:
   m_GameObject: {fileID: 1839556398}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: c33667fd34455ba469baad7ae19ae928, type: 2}
+  m_Controller: {fileID: 9100000, guid: 43428bc0de0e11f488dec3531a92c34f, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
