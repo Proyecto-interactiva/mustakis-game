@@ -7,6 +7,14 @@ public class ConstellationManager : MonoBehaviour
 {
     public enum ConstellationPhase { INTRO, QMESSAGES, QUESTIONS, OUTRO };
 
+    // Tipos de constelación. Ligado al sprite asociado a cada ConstellationNPC.
+    public enum ConstellationType
+    {
+        Constellation1,
+        Constellation2,
+        Constellation3
+    }
+
     // Variables
     public MessagesDisplay messagesDisplay;
     public UIQuestionBox questionBox;
@@ -64,16 +72,16 @@ public class ConstellationManager : MonoBehaviour
                     break;
                 }
             }
-            if (currConstellationSave == null) { Debug.LogError("ConstellationManager: ConstellationSave NO encontrado para" + constellation.name); } // **NO DEBE PASAR
+            if (currConstellationSave == null) { Debug.LogError("ConstellationManager: ConstellationSave NO encontrado para" + constellation.name); }
 
             int n_coords = outerCoords.Count;
-            int indexChoosen = UnityEngine.Random.Range(0, n_coords - 1);
+            int indexChoosen = UnityEngine.Random.Range(0, n_coords);
             SpawnConstellation(constellation.name, constellation, currConstellationSave, outerCoords[indexChoosen].x, outerCoords[indexChoosen].y, type);
             outerCoords.RemoveAt(indexChoosen);
             type++;
-            if (type > 3) type = 1;
+            if (type > Enum.GetNames(typeof(ConstellationType)).Length) type = 1; // Asignación circular de 'tipo'. Produce asignación circular de 'Sprites'.
         }
-        isSpawned = true;
+        isSpawned = true; // Las constelaciones han sido efectivamente spawneadas
     }
 
     // Spawnear una constelación
@@ -84,16 +92,16 @@ public class ConstellationManager : MonoBehaviour
         switch (type)
         {
             case 1:
-                currConstellationNPC.constellationType = ConstellationNPC.ConstellationType.Constellation1;
+                currConstellationNPC.constellationType = ConstellationType.Constellation1;
                 break;
             case 2:
-                currConstellationNPC.constellationType = ConstellationNPC.ConstellationType.Constellation2;
+                currConstellationNPC.constellationType = ConstellationType.Constellation2;
                 break;
             case 3:
-                currConstellationNPC.constellationType = ConstellationNPC.ConstellationType.Constellation3;
+                currConstellationNPC.constellationType = ConstellationType.Constellation3;
                 break;
             default:
-                currConstellationNPC.constellationType = ConstellationNPC.ConstellationType.Constellation1;
+                currConstellationNPC.constellationType = ConstellationType.Constellation1;
                 break;
         }
         currConstellationNPC.content = info;

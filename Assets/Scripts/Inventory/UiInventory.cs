@@ -60,7 +60,10 @@ public class UiInventory : MonoBehaviour
             RectTransform itemSlotRectTransform = Instantiate(itemSlotTemplate, itemSlotContainer).GetComponent<RectTransform>();
             itemSlotRectTransform.gameObject.SetActive(true);
             Image image = itemSlotRectTransform.Find("Image").GetComponent<Image>();
-            image.sprite = constellation.GetSprite();
+            image.sprite =
+                constellation.isComplete ?
+                ConstellationAssets.Instance.GetSprite(constellation.constellationType, true) :
+                ConstellationAssets.Instance.GetSprite(constellation.constellationType, false); 
             Button button = itemSlotRectTransform.Find("DropButton").GetComponent<Button>();
             button.onClick.AddListener( delegate { AudioManager.instance.Play("Text"); } );
 

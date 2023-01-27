@@ -11,15 +11,9 @@ public class ConstellationNPC : MonoBehaviour
     // Sprites
     private GameObject info;
     private SpriteRenderer spriteRenderer;
-    public enum ConstellationType
-    {
-        Constellation1,
-        Constellation2,
-        Constellation3,
-    }
 
     [NonSerialized]
-    public ConstellationType constellationType;
+    public ConstellationManager.ConstellationType constellationType;
     [NonSerialized]
     public string content;
 
@@ -59,21 +53,8 @@ public class ConstellationNPC : MonoBehaviour
         
         infoBoxText.text = content;
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
-        switch (constellationType)
-        {
-            case ConstellationType.Constellation1:
-                spriteRenderer.sprite = ConstellationAssets.Instance.constellation1OFF;
-                break;
-            case ConstellationType.Constellation2:
-                spriteRenderer.sprite = ConstellationAssets.Instance.constellation2OFF;
-                break;
-            case ConstellationType.Constellation3:
-                spriteRenderer.sprite = ConstellationAssets.Instance.constellation3OFF;
-                break;
-            default:
-                spriteRenderer.sprite = ConstellationAssets.Instance.constellation1OFF;
-                break;
-        }
+        spriteRenderer.sprite =  ConstellationAssets.Instance.GetSprite(constellationType, false); // Sprite apagado
+
     }
 
     private void Update()
@@ -129,7 +110,7 @@ public class ConstellationNPC : MonoBehaviour
             if (!isTurnedOn)
             {
                 // Se obtiene sprite encendido
-                spriteRenderer.sprite = GetSprite();
+                spriteRenderer.sprite = ConstellationAssets.Instance.GetSprite(constellationType, true);
                 isTurnedOn = true;
             }
         }
@@ -180,30 +161,5 @@ public class ConstellationNPC : MonoBehaviour
         }
         // Si ya se completó, retorna -1.
         return -1;
-    }
-
-    // Retorna sprite correspondiente, el cual depende de si está completo (encendido) o no (apagado)
-    public Sprite GetSprite()
-    {
-        if (!isComplete)
-        {
-            switch (constellationType)
-            {
-                default:
-                case ConstellationType.Constellation1: return ConstellationAssets.Instance.constellation1OFF;
-                case ConstellationType.Constellation2: return ConstellationAssets.Instance.constellation2OFF;
-                case ConstellationType.Constellation3: return ConstellationAssets.Instance.constellation3OFF;
-            }
-        }
-        else
-        {
-            switch (constellationType)
-            {
-                default:
-                case ConstellationType.Constellation1: return ConstellationAssets.Instance.constellation1ON;
-                case ConstellationType.Constellation2: return ConstellationAssets.Instance.constellation2ON;
-                case ConstellationType.Constellation3: return ConstellationAssets.Instance.constellation3ON;
-            }
-        }
     }
 }
