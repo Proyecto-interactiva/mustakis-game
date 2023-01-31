@@ -14571,9 +14571,9 @@ RectTransform:
   - {fileID: 708256217}
   - {fileID: 1509313621}
   - {fileID: 1041573467}
-  - {fileID: 1412704587}
   - {fileID: 190816083}
   - {fileID: 491144749}
+  - {fileID: 1412704587}
   - {fileID: 771703093}
   m_Father: {fileID: 1027728361}
   m_RootOrder: 1
