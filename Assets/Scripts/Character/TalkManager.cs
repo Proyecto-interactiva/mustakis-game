@@ -14,6 +14,7 @@ public class TalkManager : MonoBehaviour
     public GameOverDisplay gameOverDisplay;
     public GameObject questionDisplay;
     public TMP_Text questionText;
+    public UIReturnToGuardianArrow arrow;
 
     GameManager gameManager;
     Inventory inventory;
@@ -37,13 +38,14 @@ public class TalkManager : MonoBehaviour
             // Paso Fase GENERAL->FINAL, al completar constelaciones
             if (ConstellationManager.Instance.isConstellationsComplete())
             {
+                // Se anima flecha indicando volver al guardián
+                arrow.Play(5, .5f);
                 gameManager.currentPhase = GameManager.Phase.FINAL;
             }
         }
         // Fase FINAL (todavía NO termina)
         else if (gameManager.currentPhase == GameManager.Phase.FINAL && !gameManager.isGameFinished)
         {
-            // No hay mucho que hacer aquí en fase final*** (por ahora**)
         }
         // FIN de JUEGO: Despliega cuadro GameOverDisplay
         else if (gameManager.isGameFinished)

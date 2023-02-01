@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -45,6 +43,7 @@ public class ConstellationNPC : MonoBehaviour
     private void Start()
     {
         isComplete = false;
+        isTurnedOn = false;
         gameManager = FindObjectOfType<GameManager>();
         currentConstellationPhase = ConstellationManager.ConstellationPhase.INTRO; // Fase inicial
         messagesDisplay = ConstellationManager.Instance.messagesDisplay;
@@ -62,15 +61,24 @@ public class ConstellationNPC : MonoBehaviour
         // Si NO está completo...
         if (!isComplete)
         {
-        // Si ya se completó hasta la última pregunta se establece isComplete=true
-            if (lastUnansweredQuestionIndex == -1 && !isComplete)
+            // Si ya se completó hasta la última pregunta se establece isComplete=true y se actualiza inventario
+            // *******
+            // Por la forma en la que esta hecho este if(), se DIFICULTA futura implementación de CIERRE
+            // ANTICIPADO DE PREGUNTA (o mensaje) a voluntad propia.
+            // Posible solución: Crear funcion que determine que efectivamente se haya completado las preguntas
+            // SIN recurrir directamente al cierre del QuestionBox. 
+            // *******
+            if (lastUnansweredQuestionIndex == -1 && !questionBox.isActiveAndEnabled && !isComplete)
             {
                 isComplete = true;
-                // Se pasa a OUTRO y se actualiza inventario. Para caso de libros que estuviesen listos desde antes.
+
+                // Actualización de INVENTARIO
+                FindObjectOfType<PlayerLogic>().inventory.Update();
+
+                // Se pasa a OUTRO para caso de libros que estuviesen listos desde antes de la sesión.
                 if (ParseInitialLastUnansweredQuestionIndex() == -1)
                 {
                     currentConstellationPhase = ConstellationManager.ConstellationPhase.OUTRO;
-                    FindObjectOfType<PlayerLogic>().inventory.Update();
                 }
             }
             // Mensajes previos de pregunta actual
@@ -93,14 +101,15 @@ public class ConstellationNPC : MonoBehaviour
                     if (lastUnansweredQuestionIndex+1 >= constellation.questionPacks.Count)
                     {
                         questionBox.ShowQuestionAndChangeConstellationPhaseOnClose(this, lastUnansweredQuestionIndex, ConstellationManager.ConstellationPhase.OUTRO);
+                        // +1 para pasar a la siguiente pregunta. -1 Si era la última.
+                        lastUnansweredQuestionIndex = -1;
                     }
                     // Si NO es última pregunta, pasa a QMESSAGES al cerrar.
                     else
                     {
                         questionBox.ShowQuestionAndChangeConstellationPhaseOnClose(this, lastUnansweredQuestionIndex, ConstellationManager.ConstellationPhase.QMESSAGES);
+                        lastUnansweredQuestionIndex++;
                     }
-                    // +1 para pasar a la siguiente pregunta!!! -1 si era la última.
-                    lastUnansweredQuestionIndex = lastUnansweredQuestionIndex + 1 < constellation.questionPacks.Count ? lastUnansweredQuestionIndex + 1 : -1;
                 }
             }
         }
@@ -143,7 +152,7 @@ public class ConstellationNPC : MonoBehaviour
         }
     }
 
-    // Se obtiene índice de la última pregunta sin contestar
+    // Se obtiene índice de la última pregunta sin contestar (Desde el SAVE al COMENZAR! Entrega IGUAL resultado toda la partida)
     private int ParseInitialLastUnansweredQuestionIndex()
     {
         //return 0; // ***DEBUGGING***

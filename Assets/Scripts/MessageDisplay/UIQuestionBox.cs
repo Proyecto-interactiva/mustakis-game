@@ -36,12 +36,6 @@ public class UIQuestionBox : MonoBehaviour
             isAnswerConfirmedAndSent = false;
             gameObject.SetActive(false);
             Debug.Log("QuestionBox: Pasando a fase constelacion " + pendingConstellationPhase);
-
-            // Actualiza inventario de jugador si se está pasando a OUTRO, para colorear la nueva constelacion completa
-            if (pendingConstellationPhase == ConstellationManager.ConstellationPhase.OUTRO)
-            {
-                FindObjectOfType<PlayerLogic>().inventory.Update();
-            }
         }
     }
 

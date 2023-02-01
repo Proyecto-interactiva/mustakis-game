@@ -45,6 +45,7 @@ public class Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         // Se puede mover sí, y sólo sí, CheckMovable retorna verdadero.
         isMovable = CheckMovable();
         if (isMovable)
