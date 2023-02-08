@@ -85,8 +85,7 @@ public class UiInventory : MonoBehaviour
         if (pauseMenu.gameObject.activeInHierarchy)
         {
             // Desactivar
-            FindObjectOfType<AudioManager>().Play("Close");
-            pauseMenu.gameObject.SetActive(false);
+            pauseMenu.Close();
         }
         else 
         {
@@ -105,8 +104,7 @@ public class UiInventory : MonoBehaviour
     {
         if (helpMenu.gameObject.activeInHierarchy)
         {
-            FindObjectOfType<AudioManager>().Play("Close");
-            helpMenu.gameObject.SetActive(false);
+            helpMenu.Close();
         }
         else
         {
