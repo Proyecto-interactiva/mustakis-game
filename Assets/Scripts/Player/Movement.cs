@@ -123,7 +123,13 @@ public class Movement : MonoBehaviour
     // Revisa si es legal moverse. Depende de que questionBox y messagesDisplay estén desactivados.
     private bool CheckMovable()
     {
-        if (questionBox.isActiveAndEnabled || messagesDisplay.isActiveAndEnabled) { return false; }
-        else { return true; }
+        if (questionBox.isActiveAndEnabled || messagesDisplay.isActiveAndEnabled)
+        {
+            return false; 
+        }
+        else
+        {
+            return true;
+        }
     }
 }
