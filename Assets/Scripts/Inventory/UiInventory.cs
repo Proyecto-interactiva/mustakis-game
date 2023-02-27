@@ -86,6 +86,11 @@ public class UiInventory : MonoBehaviour
         {
             // Desactivar
             pauseMenu.Close();
+
+            // Desactivar otros menús
+            helpMenu.gameObject.SetActive(false);
+            exitWarning.gameObject.SetActive(false);
+            credits.gameObject.SetActive(false);
         }
         else 
         {
@@ -105,6 +110,11 @@ public class UiInventory : MonoBehaviour
         if (helpMenu.gameObject.activeInHierarchy)
         {
             helpMenu.Close();
+
+            // Desactivar otros menús
+            pauseMenu.gameObject.SetActive(false);
+            exitWarning.gameObject.SetActive(false);
+            credits.gameObject.SetActive(false);
         }
         else
         {

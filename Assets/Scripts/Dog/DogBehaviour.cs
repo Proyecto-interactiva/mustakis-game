@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 
@@ -9,6 +10,8 @@ enum DogState { IDLE, WALKING }
 
 public class DogBehaviour : MonoBehaviour
 {
+    //General
+    GameManager gameManager;
     // Configuración
     public float speed;
     public float cycleDuration;
@@ -17,18 +20,35 @@ public class DogBehaviour : MonoBehaviour
     DogState currentState;
     // Interactua con jugador?
     bool isPlayerInteracting;
-    // Ciclo
+    // Ciclo caminata-idle
     IEnumerator currentCycle;
     bool isCycleActive;
     // Rigidbody
     Rigidbody2D rb;
+    // TIPS
+    GameObject tipsContainer;
+    TMP_Text tipsBoxText;
+    List<string> tips;
+    int currentTipIndex;
+
 
     // Start is called before the first frame update
     void Start()
     {
+        gameManager = FindObjectOfType<GameManager>();
+
+        tipsContainer = this.gameObject.transform.Find("Tips").gameObject;
+        if (tipsContainer == null) { Debug.LogError("DogBehaviour: No se encuentra contenedor \"Tips\"!"); }
+        tipsBoxText = tipsContainer.GetComponentInChildren<TMP_Text>();
+        if (tipsBoxText == null) { Debug.LogError("DogBehaviour: No se encuentra TMP_Text en \"Tips\"!"); }
+
+        //tips = new List<string>() { "AAA A AAA", "SDGFDXGX SDFGVDG", "REEEEEEEEEE EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE", "BANANAAAAAAAAAAAAAAAY"};
+        tips = gameManager.mustakisGameData.dialogues.tips;
+
         currentState = DogState.IDLE;
         isPlayerInteracting = false;
         isCycleActive = false;
+
         currentCycle = MoveCycle(cycleDuration);
         rb = gameObject.GetComponent<Rigidbody2D>();
     }
@@ -50,6 +70,16 @@ public class DogBehaviour : MonoBehaviour
         {
             isPlayerInteracting = true;
         }
+
+        // Mostrar tips
+        if (isPlayerInteracting && !tipsContainer.activeInHierarchy)
+        {
+            tipsContainer.SetActive(true);
+            // Mostrar tip al azar
+            int randomTipIndex = Random.Range(0, tips.Count);
+            currentTipIndex = randomTipIndex;
+            tipsBoxText.text = tips[currentTipIndex];
+        }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
@@ -58,6 +88,36 @@ public class DogBehaviour : MonoBehaviour
         {
             isPlayerInteracting = false;
         }
+
+        // Esconder tips y reiniciar variables
+        if (!isPlayerInteracting && tipsContainer.activeInHierarchy)
+        {
+            RestartTips();
+            tipsContainer.SetActive(false);
+        }
+    }
+
+    // Muestra siguiente tip según índice, cíclico. Para usarse con BOTÓN "Siguiente".
+    public void NextTip()
+    {
+        if (currentTipIndex == tips.Count - 1)
+        {
+            currentTipIndex = 0;
+            tipsBoxText.text = tips[currentTipIndex];
+        }
+        else
+        {
+            currentTipIndex++;
+            tipsBoxText.text = tips[currentTipIndex];
+        }
+    }
+
+    // Reiniciar variables de tips (ej.: Al dejar de interactuar con perro)
+    private void RestartTips()
+    {
+        currentTipIndex = 0;
+        tipsBoxText.text = "";
+
     }
 
     private IEnumerator MoveCycle(float duration)
