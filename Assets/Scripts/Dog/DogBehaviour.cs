@@ -25,7 +25,7 @@ public class DogBehaviour : MonoBehaviour
     bool isCycleActive;
     // Rigidbody
     Rigidbody2D rb;
-    // TIPS
+    // Tips
     GameObject tipsContainer;
     TMP_Text tipsBoxText;
     List<string> tips;
@@ -92,8 +92,7 @@ public class DogBehaviour : MonoBehaviour
         // Esconder tips y reiniciar variables
         if (!isPlayerInteracting && tipsContainer.activeInHierarchy)
         {
-            RestartTips();
-            tipsContainer.SetActive(false);
+            RestartAndClose();
         }
     }
 
@@ -113,11 +112,14 @@ public class DogBehaviour : MonoBehaviour
     }
 
     // Reiniciar variables de tips (ej.: Al dejar de interactuar con perro)
-    private void RestartTips()
+    private void RestartAndClose()
     {
         currentTipIndex = 0;
         tipsBoxText.text = "";
-
+        if (tipsContainer.activeInHierarchy) 
+        {
+            tipsContainer.SetActive(false);
+        }
     }
 
     private IEnumerator MoveCycle(float duration)
