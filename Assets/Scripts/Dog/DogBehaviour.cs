@@ -49,10 +49,12 @@ public class DogBehaviour : MonoBehaviour
         if (tipsContainer == null) { Debug.LogError("DogBehaviour: No se encuentra contenedor \"Tips\"!"); }
         tipsBoxText = tipsContainer.GetComponentInChildren<TMP_Text>();
         if (tipsBoxText == null) { Debug.LogError("DogBehaviour: No se encuentra TMP_Text en \"Tips\"!"); }
+        tipsBoxText.text = "¡Guau!"; // Placeholder para cuando no hay tips
         rb = gameObject.GetComponent<Rigidbody2D>();
 
-        tips = new List<string>() { "AAA A AAA", "SDGFDXGX SDFGVDG", "REEEEEEEEEE EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE", "BANANAAAAAAAAAAAAAAAY"};
-        //tips = gameManager.mustakisGameData.dialogues.tips;
+        //tips = new List<string>() { "AAA A AAA", "SDGFDXGX SDFGVDG", "REEEEEEEEEE EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE", "BANANAAAAAAAAAAAAAAAY"};
+        //tips = new List<string>();
+        tips = gameManager.mustakisGameData.dialogues.tips;
 
         currentState = DogState.IDLE;
         isPlayerInteracting = false;
@@ -100,9 +102,12 @@ public class DogBehaviour : MonoBehaviour
         {
             tipsContainer.SetActive(true);
             // Mostrar tip al azar
-            int randomTipIndex = UnityEngine.Random.Range(0, tips.Count);
-            currentTipIndex = randomTipIndex;
-            tipsBoxText.text = tips[currentTipIndex];
+            if (tips.Count != 0)
+            {
+                int randomTipIndex = UnityEngine.Random.Range(0, tips.Count);
+                currentTipIndex = randomTipIndex;
+                tipsBoxText.text = tips[currentTipIndex];
+            }
         }
     }
 
@@ -124,15 +129,18 @@ public class DogBehaviour : MonoBehaviour
     // Muestra siguiente tip según índice, cíclico. Para usarse con BOTÓN "Siguiente".
     public void NextTip()
     {
-        if (currentTipIndex == tips.Count - 1)
+        if (tips.Count != 0)
         {
-            currentTipIndex = 0;
-            tipsBoxText.text = tips[currentTipIndex];
-        }
-        else
-        {
-            currentTipIndex++;
-            tipsBoxText.text = tips[currentTipIndex];
+            if (currentTipIndex == tips.Count - 1)
+            {
+                currentTipIndex = 0;
+                tipsBoxText.text = tips[currentTipIndex];
+            }
+            else
+            {
+                currentTipIndex++;
+                tipsBoxText.text = tips[currentTipIndex];
+            }
         }
     }
 
@@ -140,7 +148,7 @@ public class DogBehaviour : MonoBehaviour
     private void RestartAndClose()
     {
         currentTipIndex = 0;
-        tipsBoxText.text = "";
+        tipsBoxText.text = "¡Guau!";
         if (tipsContainer.activeInHierarchy) 
         {
             tipsContainer.SetActive(false);
@@ -167,8 +175,79 @@ public class DogBehaviour : MonoBehaviour
             List<Collider2D> currColliders = new List<Collider2D>();
             rb.OverlapCollider(wallsCF, currColliders); // Agrega colisionadores actuales
 
-            // CASO 1: Paredes NUEVAS
-            if (currColliders.Count > forbiddenDirectionTuples.Count)
+            // CASO 1: ESQUINA-A-ESQUINA o LADO-A-LADO
+            // Mantiene número de colisionadores pero son distintos
+            if (currColliders.Count > 0 &&
+                currColliders.Count == forbiddenDirectionTuples.Count &&
+                !AreCollidersForbidden(currColliders))
+            {
+                Collider2D newWall = null;
+                Tuple<Collider2D, Vector2> abandonedWallTuple = null;
+                Collider2D auxCollider = null;
+                // 1. Chequear pared que se agregó
+                for (int i = 0; i < currColliders.Count; i++)
+                {
+                    auxCollider = currColliders[i];
+                    bool found = false;
+                    foreach (var tuple in forbiddenDirectionTuples)
+                    {
+                        if (tuple.Item1 == auxCollider)
+                        {
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (found == false) { newWall = auxCollider; break; }
+                }
+                // ERROR: Pared nueva no encontrada
+                if (newWall == null)
+                {
+                    Debug.LogError("DogBehaviour: Pared no encontrada " +
+                        "entre prohibidas");
+                }
+
+                // 2. Chequear pared que se perdió
+                for (int i = 0; i < forbiddenDirectionTuples.Count; i++)
+                {
+                    bool gone = true;
+                    auxCollider = forbiddenDirectionTuples[i].Item1;
+                    foreach (var currCollider in currColliders)
+                    {
+                        if (auxCollider == currCollider)
+                        {
+                            gone = false;
+                            break;
+                        }
+                    }
+                    if (gone) { abandonedWallTuple = forbiddenDirectionTuples[i]; break; }
+                }
+                // ERROR: Pared abandonada no encontrada
+                if (abandonedWallTuple == null)
+                {
+                    Debug.LogError("DogBehaviour: Pared abandonada no está entre prohibidas");
+                }
+
+                // 3. Agregar la pared nueva, quitar pared vieja
+                // Agregar nueva pared
+                var newForbiddenTuple = new Tuple<Collider2D, Vector2>(newWall,
+                    lastNonIdleUnitaryMovementVector);
+                forbiddenDirectionTuples.Add(newForbiddenTuple);
+                // Eliminar dirección nueva prohibida
+                bool result = cardinalDirections.Remove(lastNonIdleUnitaryMovementVector);
+                // ERROR: Dirección no encontrada
+                if (!result)
+                {
+                    Debug.LogError("DogBehaviour:Dirección prohibida nueva" +
+                        " no encontrada");
+                }
+                // Eliminar pared abandonada               
+                forbiddenDirectionTuples.Remove(abandonedWallTuple);
+                // Permitir nuevamente dirección ex-prohibida
+                cardinalDirections.Add(abandonedWallTuple.Item2);
+            }
+
+            // CASO 2: Pared NUEVA            
+            else if (currColliders.Count > forbiddenDirectionTuples.Count)
             {
                 // Obtener nueva pared
                 Collider2D newWall = null;
@@ -201,7 +280,7 @@ public class DogBehaviour : MonoBehaviour
                     " no encontrada"); }
             }
 
-            // CASO 2: MENOS paredes
+            // CASO 3: MENOS una pared
             else if (currColliders.Count < forbiddenDirectionTuples.Count)
             {
                 // Obtener tupla con pared abandonada
@@ -236,7 +315,7 @@ public class DogBehaviour : MonoBehaviour
             // Dirección cardinal random (permitidas) y vector velocidad resultante
             int randIndex = Random.Range(0, cardinalDirections.Count);
             currentMovementVector = cardinalDirections[randIndex] * speed;
-            lastNonIdleUnitaryMovementVector = currentMovementVector.normalized;
+            lastNonIdleUnitaryMovementVector = cardinalDirections[randIndex]; //Para siguiente frame
             // ERROR: Vector NonIdle es cero
             if (lastNonIdleUnitaryMovementVector == Vector2.zero)
             {
@@ -300,5 +379,25 @@ public class DogBehaviour : MonoBehaviour
         if (currentMovementVector.y > ARBITRARY_LOW_NUMBER) { animator.SetInteger("Vertical", 1); }
         if (currentMovementVector.y > -ARBITRARY_LOW_NUMBER && currentMovementVector.y < ARBITRARY_LOW_NUMBER) { animator.SetInteger("Vertical", 0); }
         if (currentMovementVector.y < -ARBITRARY_LOW_NUMBER) { animator.SetInteger("Vertical", -1); }
+    }
+
+    // Comprueba si todos los colisionadores recibidos tienen una
+    // dirección bloqueada asociada
+    private bool AreCollidersForbidden(List<Collider2D> colliders)
+    {
+        bool result = false;
+        foreach (Collider2D collider in colliders)
+        {
+            result = false;
+            foreach (var forbiddenDirectionTuple in forbiddenDirectionTuples)
+            {
+                if (collider == forbiddenDirectionTuple.Item1)
+                {
+                    result = true;
+                }
+            }
+            if (!result) { break; }
+        }
+        return result;
     }
 }
