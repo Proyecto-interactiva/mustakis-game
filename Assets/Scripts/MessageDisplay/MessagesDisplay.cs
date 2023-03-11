@@ -10,7 +10,9 @@ public class MessagesDisplay : MonoBehaviour
 {
     private GameManager gameManager;
     public TMP_Text messageDisplay;
+    public Image image; // Personaje lado izquierdo
     public GameOverDisplay gameOverDisplay;
+    public Sprite defaultSprite;
     List<string> messages;
     // Fase GameManager
     private GameManager.Phase pendingPhase; // Fase pendiente por aplicar a GameManager
@@ -49,13 +51,17 @@ public class MessagesDisplay : MonoBehaviour
         }
     }
 
-    public void ShowMessages(List<string> messages)
+    public void ShowMessages(List<string> messages, Sprite characterSprite = null)
     {
+        // Cambio de sprite lateral izquierdo por el sprite del personaje (y si no, predeterminado)
+        if (characterSprite != null) { ChangeSprite(characterSprite); }
+        else if (characterSprite != defaultSprite) { ChangeSprite(defaultSprite); }
+
         isFinished = false;
         this.gameObject.SetActive(true);
         this.messages = messages;
         Debug.Log("Message count: " + this.messages.Count);
-        nextMessage();
+        NextMessage();
     }
 
     // Cambio de fase en gameManager al cerrar los mensajes
@@ -69,7 +75,7 @@ public class MessagesDisplay : MonoBehaviour
     // Cambio de fase local de una constelación al cerrar los mensajes
     public void ShowMessagesAndChangeConstellationPhaseOnClose(List<string> messages, ConstellationNPC constellation, ConstellationManager.ConstellationPhase phase)
     {
-        ShowMessages(messages);
+        ShowMessages(messages, constellation.GetComponent<SpriteRenderer>().sprite);
         isConstellationPhasePending = true;
         pendingConstellationTarget = constellation;
         pendingConstellationPhase = phase;
@@ -82,7 +88,7 @@ public class MessagesDisplay : MonoBehaviour
         isGameOverPending = true;
     }
 
-    private void nextMessage()
+    public void NextMessage()
     {
         FindObjectOfType<AudioManager>().Play("Text");
         if (currentMessageIndex + 1 < messages.Count)
@@ -122,6 +128,11 @@ public class MessagesDisplay : MonoBehaviour
             FindObjectOfType<GameManager>().isGameFinished = true;
             Debug.Log("MessageDisplay: Seteando el juego como TERMINADO");
         }
+    }
+
+    private void ChangeSprite(Sprite newSprite)
+    {
+        image.sprite = newSprite;
     }
 
 

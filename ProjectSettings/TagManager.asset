@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Item
   - Dog Wall
+  - Main NPC
   layers:
   - Default
   - TransparentFX

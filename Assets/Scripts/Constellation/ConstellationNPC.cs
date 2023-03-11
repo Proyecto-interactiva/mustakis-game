@@ -101,7 +101,6 @@ public class ConstellationNPC : MonoBehaviour
                     if (lastUnansweredQuestionIndex+1 >= constellation.questionPacks.Count)
                     {
                         questionBox.ShowQuestionAndChangeConstellationPhaseOnClose(this, lastUnansweredQuestionIndex, ConstellationManager.ConstellationPhase.OUTRO);
-                        // +1 para pasar a la siguiente pregunta. -1 Si era la última.
                         lastUnansweredQuestionIndex = -1;
                     }
                     // Si NO es última pregunta, pasa a QMESSAGES al cerrar.
@@ -148,7 +147,7 @@ public class ConstellationNPC : MonoBehaviour
         else if (!messagesDisplay.isActiveAndEnabled && currentConstellationPhase == ConstellationManager.ConstellationPhase.OUTRO)
         {
             messagesDisplay.gameObject.SetActive(true);
-            messagesDisplay.ShowMessages(constellation.outro);
+            messagesDisplay.ShowMessages(constellation.outro, GetComponent<SpriteRenderer>().sprite);
         }
     }
 

@@ -6537,7 +6537,7 @@ GameObject:
   - component: {fileID: 246274590}
   m_Layer: 0
   m_Name: Character1
-  m_TagString: Untagged
+  m_TagString: Main NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13132,7 +13132,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   messageDisplay: {fileID: 1286993218}
+  image: {fileID: 441021637}
   gameOverDisplay: {fileID: 190816084}
+  defaultSprite: {fileID: 156085597, guid: cd0c44b4c187b5740bc5f7ca4cfb9f7d, type: 3}
 --- !u!4 &717669430 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5892931112973229283, guid: b1608febb75eb2745930f8220e44aa74, type: 3}
@@ -13993,8 +13995,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 708256218}
-        m_TargetAssemblyTypeName: messagesDisplay, Assembly-CSharp
-        m_MethodName: nextMessage
+        m_TargetAssemblyTypeName: MessagesDisplay, Assembly-CSharp
+        m_MethodName: NextMessage
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
