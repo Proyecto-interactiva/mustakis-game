@@ -152,7 +152,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4e6a2975514fb4eb145538225d4a92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bookPrefab: {fileID: 7902011897419779775, guid: 275c75ded77c9294a830ecff6cf518aa, type: 3}
 --- !u!4 &384653615
 Transform:
   m_ObjectHideFlags: 0
@@ -267,22 +266,22 @@ PrefabInstance:
     - target: {fileID: 2995266465853692037, guid: 67e51534f77cd814f888db08d2166026, type: 3}
       propertyPath: sounds.Array.data[0].clip
       value: 
-      objectReference: {fileID: 8300000, guid: ca897336dc4d51a4181791dcbb89b574, type: 3}
+      objectReference: {fileID: 8300000, guid: 4ef7858d3bce96a4093e99341425134f, type: 3}
     - target: {fileID: 2995266465853692154, guid: 67e51534f77cd814f888db08d2166026, type: 3}
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2995266465853692154, guid: 67e51534f77cd814f888db08d2166026, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 574.9632
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2995266465853692154, guid: 67e51534f77cd814f888db08d2166026, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 297.9681
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2995266465853692154, guid: 67e51534f77cd814f888db08d2166026, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.6311119
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2995266465853692154, guid: 67e51534f77cd814f888db08d2166026, type: 3}
       propertyPath: m_LocalRotation.w
