@@ -11,6 +11,9 @@ public class UiInventory : MonoBehaviour
     public UICredits credits;
     public UIExitWarning exitWarning;
 
+    [Header("Joystick")]
+    public Joystick joystick;
+
     [Header("")]
     private Inventory inventory;
     private Transform itemSlotContainer; // Grid Layout Group que contiene los libros
@@ -105,6 +108,7 @@ public class UiInventory : MonoBehaviour
         }
     }
 
+    // Abre y cierra el UIHelpMenu
     public void ToggleHelpMenu()
     {
         if (helpMenu.gameObject.activeInHierarchy)
@@ -126,5 +130,12 @@ public class UiInventory : MonoBehaviour
             FindObjectOfType<AudioManager>().Play("Open");
             helpMenu.gameObject.SetActive(true);
         }
+    }
+
+    // Activa y desactiva el Joystick
+    public void ToggleJoystickButton()
+    {
+        if (joystick.isActiveAndEnabled) {joystick.gameObject.SetActive(false); }
+        else { joystick.gameObject.SetActive(true); }
     }
 }
