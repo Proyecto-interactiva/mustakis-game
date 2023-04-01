@@ -25,8 +25,8 @@ public class MainMenuManager : MonoBehaviour
 
     public void OpenTrailer()
     {
+        FindObjectOfType<AudioManager>().Play("Text");
         gameManager.lastSceneBeforeTrailer = SceneManager.GetActiveScene().name;
         SceneManager.LoadScene("Trailer");
-        FindObjectOfType<AudioManager>().Play("Text");
     }
 }

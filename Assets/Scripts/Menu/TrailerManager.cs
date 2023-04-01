@@ -21,7 +21,7 @@ public class TrailerManager : MonoBehaviour
 
         // Asignar url del video y reproducir
         videoPlayer.source = VideoSource.Url;
-        videoPlayer.url = Application.streamingAssetsPath + "/Trailer_Eduju.mp4"; // Video está en 'Assets/StreamingAssets'
+        videoPlayer.url = Application.streamingAssetsPath + "/IntroPlanetaMustakis.mp4"; // Video está en 'Assets/StreamingAssets'
         videoPlayer.Play();
     }
 
@@ -31,7 +31,7 @@ public class TrailerManager : MonoBehaviour
         loadNextSceneBasedOnLast();
     }
 
-    // Determina siguiente escena basado en escena previa
+    // Determina siguiente escena basado en escena previa. Usado en botón (y en otras partes).
     public void loadNextSceneBasedOnLast()
     {
         audioManager.SetMute(false); // Se desmutea música de fondo al terminar trailer
